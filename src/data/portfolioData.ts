@@ -5,7 +5,7 @@ export const portfolioData = {
     "name": "Arsalan Bardsiri",
     "title": "Full-Stack Developer",
     "typewriterTexts": [
-        "Full-Stack Developer",
+        "Hybrid Full-Stack/DevOps Developer",
         "UI/UX Enthusiast",
         "Problem Solver"
     ],

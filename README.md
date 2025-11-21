@@ -52,30 +52,56 @@ A premium, high-performance portfolio website built with **React**, **TypeScript
 
 ## 🛠 Customization
 
-All content is managed in a single JSON file for easy updates without touching the code.
+This project is designed to be easily customizable. You don't need to dive deep into the code to make it yours.
 
-1. **Update Content**:
-   - Open `src/data/portfolioData.json`.
-   - Edit your **Name**, **Bio**, **Skills**, **Experience**, and **Projects**.
-   - Update social links in the `contact` section.
+### 1. Update Your Information
+All content is managed in `src/data/portfolioData.ts`. Open this file to update:
+- **Personal Info**: Name, title, bio, and typewriter strings.
+- **Experience**: Add your work history.
+- **Skills**: List your technical skills.
+- **Projects**: Add your projects with titles, descriptions, and links.
+- **Contact**: Update your social media links and email.
 
-2. **Change Images**:
-   - Place your profile picture in `public/assets/images/`.
-   - Update the `profile` filename in `portfolioData.json`.
-   - Add project screenshots to the same folder and update `imageUrl` in the `projects` array.
+### 2. Change Images
+Images are located in `src/assets/images/`.
+1.  **Add your image**: Drag and drop your profile picture (e.g., `my-photo.jpg`) into `src/assets/images/`.
+2.  **Import it**: Open `src/data/portfolioData.ts` and import your image at the top:
+    ```typescript
+    import profileImg from '../assets/images/my-photo.jpg';
+    ```
+3.  **Use it**: Update the `profile` field in the `portfolioData` object:
+    ```typescript
+    export const portfolioData = {
+      profile: profileImg,
+      // ...
+    };
+    ```
 
-3. **Resume**:
-   - Place your resume PDF in the `public/` folder and name it `resume.pdf`.
+### 3. Update Resume
+- Place your resume PDF in the `public/` folder.
+- Rename it to `resume.pdf` (or update the link in `src/components/Hero.tsx` if you prefer a different name).
+
+### 4. Customize Colors
+Want a different color scheme? Open `src/styles/global.css` and modify the CSS variables at the top:
+```css
+:root {
+  --primary: #00f2ff; /* Change this to your favorite color */
+  --secondary: #9d00ff; /* Change this to a matching secondary color */
+  /* ... */
+}
+```
 
 ## 📂 Project Structure
 
 ```
 portfolio-react/
-├── public/              # Static assets (images, resume, favicon)
+├── public/              # Static assets (resume.pdf, favicon)
 ├── src/
-│   ├── components/      # Reusable UI components (Hero, NavBar, ThemeCord, etc.)
-│   ├── data/            # Content data (portfolioData.json)
-│   ├── styles/          # Global styles and CSS variables
+│   ├── assets/          # Images and media
+│   │   └── images/      # Profile and project images
+│   ├── components/      # Reusable UI components (Hero, NavBar, etc.)
+│   ├── data/            # Content data (portfolioData.ts)
+│   ├── styles/          # Global styles and themes
 │   ├── App.tsx          # Main application layout
 │   └── main.tsx         # Entry point
 ├── package.json         # Dependencies and scripts
