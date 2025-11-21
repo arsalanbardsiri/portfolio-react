@@ -39,34 +39,42 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
 
     return (
         <div style={{ position: 'relative', width: '40px', height: '60px', display: 'flex', justifyContent: 'center', zIndex: 50 }}>
-            {/* Hint Tooltip */}
+            {/* Animated Chevron Hint */}
             <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                animate={{
-                    opacity: hasInteracted ? 0 : 1,
-                    x: hasInteracted ? -10 : [0, -5, 0]
-                }}
-                transition={{
-                    opacity: { delay: 1, duration: 0.5 },
-                    x: { repeat: Infinity, duration: 2, ease: "easeInOut" }
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: hasInteracted ? 0 : 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
                 style={{
                     position: 'absolute',
-                    top: '60px',
-                    right: '40px',
-                    width: 'max-content',
-                    background: 'rgba(0,0,0,0.8)',
-                    color: 'var(--primary)',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    fontSize: '0.7rem',
-                    pointerEvents: 'none',
-                    border: '1px solid var(--primary)',
+                    top: '30px',
+                    right: '35px',
                     display: 'flex',
-                    alignItems: 'center'
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '-5px',
+                    pointerEvents: 'none'
                 }}
             >
-                Pull me! <span style={{ marginLeft: '4px' }}>→</span>
+                {[0, 1, 2].map((i) => (
+                    <motion.div
+                        key={i}
+                        animate={{ opacity: [0.2, 1, 0.2] }}
+                        transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            delay: i * 0.2,
+                            ease: "easeInOut"
+                        }}
+                        style={{
+                            color: isDarkMode ? 'var(--primary)' : 'var(--secondary)',
+                            lineHeight: 0.5,
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        ⌄
+                    </motion.div>
+                ))}
             </motion.div>
 
             {/* The Cord Line */}
