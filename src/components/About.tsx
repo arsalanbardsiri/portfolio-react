@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import data from '../data/portfolioData.json'
+import { portfolioData as data } from '../data/portfolioData'
 import { ExperienceTimeline } from './ExperienceTimeline'
 import { motion } from 'framer-motion'
 
@@ -17,7 +17,7 @@ export const About: FC = () => {
           viewport={{ once: true, margin: "-100px" }}
         >
           <p className="muted" style={{ fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '20px' }}>
-            {data.bio}
+            {data.about.bio}
           </p>
           <p className="muted" style={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
             I believe in the power of technology to transform ideas into reality. My approach combines technical expertise with a keen eye for design, ensuring that every project I work on is not only functional but also visually appealing and user-friendly.

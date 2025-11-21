@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Typewriter from "typewriter-effect";
-import data from "../data/portfolioData.json";
+import { portfolioData as data } from '../data/portfolioData';
 import { motion } from "framer-motion";
 
 interface HeroProps {
@@ -57,7 +57,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
               />
             </div>
             <p className="muted" style={{ fontSize: '1.2rem', maxWidth: '500px', marginBottom: '2.5rem', lineHeight: 1.6 }}>
-              {data.bio}
+              {data.about.bio}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               <motion.button
@@ -109,7 +109,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
                 boxShadow: '0 0 40px rgba(0, 242, 255, 0.2)',
                 background: 'var(--bg-alt)'
               }}>
-                <img src={`./assets/images/${data.profile}`} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={data.profile} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </div>
 

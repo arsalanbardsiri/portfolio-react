@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import data from '../data/portfolioData.json'
+import { portfolioData as data } from '../data/portfolioData'
 import { motion } from 'framer-motion'
 
 export const ContactSection: FC = () => {

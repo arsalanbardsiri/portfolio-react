@@ -1,5 +1,6 @@
+
 import { FC } from "react";
-import data from "../data/portfolioData.json";
+import { portfolioData as data } from '../data/portfolioData';
 import { motion } from "framer-motion";
 
 const container = {
@@ -53,12 +54,12 @@ export const SkillsGrid: FC = () => {
         ))}
       </motion.div>
       <style>{`
-        @media (max-width: 600px) {
-          .grid-cols-3 {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-      `}</style>
+@media(max - width: 600px) {
+          .grid - cols - 3 {
+    grid - template - columns: repeat(2, 1fr)!important;
+  }
+}
+`}</style>
     </section>
   );
 };
