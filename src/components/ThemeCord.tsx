@@ -7,6 +7,7 @@ interface ThemeCordProps {
 }
 
 export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
+    const [hasInteracted, setHasInteracted] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
 
     // Motion values for the pull physics
@@ -22,6 +23,7 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
 
     const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         setIsDragging(false)
+        setHasInteracted(true)
         const draggedDistance = info.offset.y
 
         // Trigger toggle if pulled down enough
@@ -37,6 +39,36 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
 
     return (
         <div style={{ position: 'relative', width: '40px', height: '60px', display: 'flex', justifyContent: 'center', zIndex: 50 }}>
+            {/* Hint Tooltip */}
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{
+                    opacity: hasInteracted ? 0 : 1,
+                    y: hasInteracted ? -10 : [0, -5, 0]
+                }}
+                transition={{
+                    opacity: { delay: 1, duration: 0.5 },
+                    y: { repeat: Infinity, duration: 2, ease: "easeInOut" }
+                }}
+                style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: 'max-content',
+                    background: 'rgba(0,0,0,0.8)',
+                    color: 'var(--primary)',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '0.7rem',
+                    pointerEvents: 'none',
+                    marginTop: '10px',
+                    border: '1px solid var(--primary)'
+                }}
+            >
+                Pull me!
+            </motion.div>
+
             {/* The Cord Line */}
             <motion.div
                 style={{
@@ -58,6 +90,17 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
                 onDragStart={() => setIsDragging(true)}
                 onDragEnd={handleDragEnd}
                 onDrag={(_, info) => y.set(info.offset.y)}
+                animate={{
+                    y: isDragging ? undefined : [0, 5, 0] // Subtle bobbing when idle
+                }}
+                transition={{
+                    y: {
+                        repeat: Infinity,
+                        duration: 3,
+                        ease: "easeInOut",
+                        repeatType: "reverse"
+                    }
+                }}
                 style={{
                     y: springY,
                     position: 'absolute',

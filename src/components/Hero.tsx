@@ -14,7 +14,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      paddingTop: '80px',
+      paddingTop: '120px',
       position: 'relative',
       overflow: 'hidden'
     }}>
