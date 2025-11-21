@@ -155,13 +155,60 @@ section::after {
   border: 1px solid var(--card-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  /* Ensure the glow doesn't spill out messily, though we might want it to. Let's keep it contained for the border effect. */
+  z-index: 1;
+}
+
+/* Rotating Light Effect */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg,
+      transparent 0%,
+      transparent 80%,
+      var(--primary) 100%);
+  animation: rotate 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  /* Create the border width */
+  background: var(--card-bg);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
 }
 
 .glass-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg), var(--shadow-glow);
-  border-color: rgba(0, 242, 255, 0.3);
+  /* Border color is handled by the pseudo-element reveal now */
+  border-color: transparent;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Buttons */
@@ -215,6 +262,8 @@ section::after {
 .section-title {
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   margin-bottom: 5rem;
+  margin-top: 100px;
+  /* Added extra top spacing */
   text-align: center;
   position: relative;
   display: inline-block;

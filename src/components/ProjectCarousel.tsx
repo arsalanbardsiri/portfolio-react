@@ -42,7 +42,7 @@ export const ProjectCarousel: FC = () => {
                 </div>
                 <div>
                   <h3 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--text)' }}>{p.title}</h3>
-                  <p className="muted" style={{ fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: 1.7 }}>{p.description}</p>
+                  <p className="muted" style={{ fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: 1.7, minHeight: '100px' }}>{p.description}</p>
                   <div style={{ marginBottom: '2rem', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                     {p.tech.map((t: string) => (
                       <span key={t} className="tag" style={{
