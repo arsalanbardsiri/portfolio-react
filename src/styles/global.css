@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Premium Dark Theme Palette */
+  /* Premium Dark Theme Palette (Default) */
   --bg: #050505;
   --bg-alt: #0a0a0a;
   --text: #e0e0e0;
@@ -28,6 +28,28 @@
   --radius-full: 9999px;
 
   --font-main: 'Outfit', sans-serif;
+}
+
+[data-theme='light'] {
+  --bg: #f8f9fa;
+  --bg-alt: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #6b7280;
+  --primary: #0051ff;
+  /* Deep Blue */
+  --secondary: #7000ff;
+  /* Purple */
+  --accent-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
+
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 20px rgba(0, 81, 255, 0.15);
 }
 
 /* Reset & Base Styles */
@@ -75,7 +97,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
+  color: var(--text);
   line-height: 1.2;
   font-weight: 700;
 }
@@ -87,7 +109,7 @@ a {
 }
 
 a:hover {
-  color: #fff;
+  color: var(--text);
 }
 
 img {
