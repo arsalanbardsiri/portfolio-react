@@ -25,7 +25,12 @@ export const ProjectCarousel: FC = () => {
         style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        whileHover={{
+          y: -5,
+          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 242, 255, 0.15)",
+          borderColor: "rgba(0, 242, 255, 0.3)"
+        }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         viewport={{ once: true, margin: "-100px" }}
       >
         <Slider {...settings}>

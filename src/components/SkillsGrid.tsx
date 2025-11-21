@@ -33,7 +33,11 @@ export const SkillsGrid: FC = () => {
           <motion.div
             key={i}
             variants={item}
-            whileHover={{ scale: 1.05, borderColor: 'var(--primary)', boxShadow: '0 0 20px rgba(0, 242, 255, 0.2)' }}
+            whileHover={{
+              y: -5,
+              borderColor: 'var(--primary)',
+              boxShadow: '0 0 20px rgba(0, 242, 255, 0.2)'
+            }}
             className="glass-card"
             style={{
               padding: "20px",

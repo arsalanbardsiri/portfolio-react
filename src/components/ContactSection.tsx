@@ -11,6 +11,11 @@ export const ContactSection: FC = () => {
         style={{ padding: '60px', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
+        whileHover={{
+          y: -5,
+          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 242, 255, 0.15)",
+          borderColor: "rgba(0, 242, 255, 0.3)"
+        }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true, margin: "-100px" }}
       >
