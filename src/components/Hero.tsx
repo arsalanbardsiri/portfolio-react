@@ -16,7 +16,10 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
       justifyContent: 'center',
       paddingTop: '120px',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      // Dot Grid Background
+      backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
+      backgroundSize: '30px 30px'
     }}>
       {/* Background Gradient Blob */}
       <div style={{
@@ -31,7 +34,50 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
         pointerEvents: 'none'
       }} />
 
-      <div className="container">
+      {/* Floating Geometric Shapes */}
+      <motion.div
+        animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: 'absolute',
+          top: '15%',
+          left: '10%',
+          width: '60px',
+          height: '60px',
+          border: '2px solid rgba(0, 242, 255, 0.2)',
+          transform: 'rotate(45deg)',
+          zIndex: 0
+        }}
+      />
+      <motion.div
+        animate={{ y: [0, 30, 0], rotate: [0, -15, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '10%',
+          width: '80px',
+          height: '80px',
+          background: 'rgba(112, 0, 255, 0.1)',
+          zIndex: 0
+        }}
+      />
+      <motion.div
+        animate={{ x: [0, 20, 0], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: 'absolute',
+          top: '40%',
+          right: '20%',
+          width: '20px',
+          height: '20px',
+          background: 'var(--primary)',
+          borderRadius: '50%',
+          zIndex: 0
+        }}
+      />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="grid" style={{
           gridTemplateColumns: '1.2fr 0.8fr',
           gap: '40px',
@@ -113,25 +159,49 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Decorative Circles */}
+            {/* Orbit 1 with Satellite */}
             <div style={{
               position: 'absolute',
               width: '400px',
               height: '400px',
-              border: '2px dashed rgba(0, 242, 255, 0.1)',
+              border: '1px solid rgba(0, 242, 255, 0.2)',
               borderRadius: '50%',
               animation: 'spin 20s linear infinite',
               zIndex: 1
-            }} />
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '-5px',
+                width: '10px',
+                height: '10px',
+                background: 'var(--primary)',
+                borderRadius: '50%',
+                boxShadow: '0 0 10px var(--primary)'
+              }} />
+            </div>
+
+            {/* Orbit 2 with Satellite */}
             <div style={{
               position: 'absolute',
-              width: '450px',
-              height: '450px',
-              border: '1px solid rgba(157, 0, 255, 0.1)',
+              width: '500px',
+              height: '500px',
+              border: '1px solid rgba(112, 0, 255, 0.2)',
               borderRadius: '50%',
               animation: 'spin 30s linear infinite reverse',
               zIndex: 1
-            }} />
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '0',
+                left: '50%',
+                width: '12px',
+                height: '12px',
+                background: 'var(--secondary)',
+                borderRadius: '50%',
+                boxShadow: '0 0 15px var(--secondary)'
+              }} />
+            </div>
           </motion.div>
         </div>
       </div>
