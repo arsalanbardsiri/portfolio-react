@@ -23,7 +23,7 @@ export const SkillsGrid: FC = () => {
       <h2 className="section-title">Technical Skills</h2>
       <motion.div
         className="grid grid-cols-3"
-        style={{ gap: '20px' }}
+        style={{ gap: '40px' }}
         variants={container}
         initial="hidden"
         whileInView="show"

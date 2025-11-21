@@ -7,7 +7,7 @@ export const About: FC = () => {
   return (
     <section id="about" className="container">
       <h2 className="section-title">About Me</h2>
-      <div className="grid grid-cols-2" style={{ gap: '40px' }}>
+      <div className="grid grid-cols-2" style={{ gap: '60px', alignItems: 'center' }}>
         <motion.div
           className="glass-card"
           style={{ padding: '30px', height: 'fit-content' }}
