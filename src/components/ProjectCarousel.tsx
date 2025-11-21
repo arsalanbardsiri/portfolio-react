@@ -3,6 +3,7 @@ import data from '../data/portfolioData.json'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { motion } from 'framer-motion'
 
 export const ProjectCarousel: FC = () => {
   const settings = {
@@ -19,7 +20,14 @@ export const ProjectCarousel: FC = () => {
   return (
     <section id="projects" className="container">
       <h2 className="section-title">Featured Projects</h2>
-      <div className="glass-card" style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}>
+      <motion.div
+        className="glass-card"
+        style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
         <Slider {...settings}>
           {data.projects.map((p) => (
             <div key={p.id} style={{ outline: 'none' }}>
@@ -45,15 +53,33 @@ export const ProjectCarousel: FC = () => {
                     ))}
                   </div>
                   <div style={{ display: 'flex', gap: 16 }}>
-                    <a className="btn btn-primary" href={p.links.live} target="_blank" rel="noreferrer">Live Demo</a>
-                    <a className="btn btn-secondary" href={p.links.github} target="_blank" rel="noreferrer">Source Code</a>
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="btn btn-primary"
+                      href={p.links.live}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Live Demo
+                    </motion.a>
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="btn btn-secondary"
+                      href={p.links.github}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Source Code
+                    </motion.a>
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </Slider>
-      </div>
+      </motion.div>
 
       <style>{`
         .slick-dots li button:before {
