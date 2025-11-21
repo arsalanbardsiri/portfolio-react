@@ -59,7 +59,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             <p className="muted" style={{ fontSize: '1.2rem', maxWidth: '500px', marginBottom: '2.5rem', lineHeight: 1.6 }}>
               {data.bio}
             </p>
-            <div style={{ display: 'flex', gap: 20 }}>
+            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -72,11 +72,23 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn btn-secondary"
-                href={data.contact.github}
+                href="/resume.pdf"
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Profile
+                Download Resume
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="btn btn-secondary"
+                href={data.contact.github}
+                target="_blank"
+                rel="noreferrer"
+                style={{ border: 'none', padding: '12px' }}
+                aria-label="GitHub Profile"
+              >
+                <i className="fab fa-github" style={{ fontSize: '1.5rem' }}></i>
               </motion.a>
             </div>
           </motion.div>

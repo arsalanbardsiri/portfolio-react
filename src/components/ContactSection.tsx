@@ -4,11 +4,11 @@ import { motion } from 'framer-motion'
 
 export const ContactSection: FC = () => {
   return (
-    <section id="contact" className="container" style={{ textAlign: 'center', paddingBottom: '120px' }}>
+    <section id="contact" className="container" style={{ paddingBottom: '120px' }}>
       <h2 className="section-title">Get in Touch</h2>
       <motion.div
         className="glass-card"
-        style={{ padding: '60px', maxWidth: '700px', margin: '0 auto' }}
+        style={{ padding: '60px', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
