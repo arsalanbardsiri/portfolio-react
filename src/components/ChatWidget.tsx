@@ -1,4 +1,5 @@
 import { FC, useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
 
@@ -78,7 +79,7 @@ export const ChatWidget: FC = () => {
         if (e.key === 'Enter') handleSend();
     };
 
-    return (
+    return createPortal(
         <>
             {/* Floating Action Button */}
             <motion.button
@@ -96,7 +97,7 @@ export const ChatWidget: FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    zIndex: 1000,
+                    zIndex: 9999, // High z-index
                     cursor: 'pointer',
                     border: '1px solid var(--glass-border)',
                     background: 'var(--bg-alt)',
@@ -124,7 +125,7 @@ export const ChatWidget: FC = () => {
                             right: '30px',
                             width: '350px',
                             height: '500px',
-                            zIndex: 1000,
+                            zIndex: 9999, // High z-index
                             display: 'flex',
                             flexDirection: 'column',
                             overflow: 'hidden',
@@ -148,7 +149,7 @@ export const ChatWidget: FC = () => {
                                 background: '#00ff88',
                                 boxShadow: '0 0 10px #00ff88'
                             }} />
-                            <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>Portfolio AI</span>
+                            <span style={{ fontWeight: 600, color: 'var(--text)' }}>Portfolio AI</span>
                         </div>
 
                         {/* Messages Area */}
@@ -169,7 +170,7 @@ export const ChatWidget: FC = () => {
                                         padding: '12px 16px',
                                         borderRadius: '15px',
                                         background: msg.isUser ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
-                                        color: msg.isUser ? '#000' : 'var(--text-main)',
+                                        color: msg.isUser ? '#000' : 'var(--text)',
                                         borderBottomRightRadius: msg.isUser ? '2px' : '15px',
                                         borderBottomLeftRadius: msg.isUser ? '15px' : '2px',
                                         fontSize: '0.95rem',
@@ -218,7 +219,7 @@ export const ChatWidget: FC = () => {
                                     border: 'none',
                                     borderRadius: '20px',
                                     padding: '10px 15px',
-                                    color: 'var(--text-main)',
+                                    color: 'var(--text)',
                                     outline: 'none'
                                 }}
                             />
@@ -244,6 +245,8 @@ export const ChatWidget: FC = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </>,
+        document.body
     );
 };
+
