@@ -149,6 +149,12 @@ section::after {
   border: 1px solid var(--glass-border);
 }
 
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .glass-card {
   background: var(--card-bg);
   backdrop-filter: blur(10px);
@@ -157,37 +163,34 @@ section::after {
   box-shadow: var(--shadow-md);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  overflow: hidden;
-  /* Ensure the glow doesn't spill out messily, though we might want it to. Let's keep it contained for the border effect. */
   z-index: 1;
 }
 
-/* Rotating Light Effect */
+/* Rotating Light Border Effect */
 .glass-card::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 0deg,
+  inset: 0;
+  padding: 2px;
+  /* Thickness of the glowing border */
+  border-radius: inherit;
+  background: conic-gradient(from var(--angle),
       transparent 0%,
-      transparent 80%,
-      var(--primary) 100%);
-  animation: rotate 4s linear infinite;
+      var(--primary) 20%,
+      transparent 40%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: 2;
+  pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-.glass-card::after {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  /* Create the border width */
-  background: var(--card-bg);
-  border-radius: inherit;
-  z-index: -1;
+  animation: rotate-gradient 3s linear infinite;
 }
 
 .glass-card:hover::before {
@@ -197,17 +200,13 @@ section::after {
 .glass-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg), var(--shadow-glow);
-  /* Border color is handled by the pseudo-element reveal now */
   border-color: transparent;
+  /* Hide original border to show glow */
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
+@keyframes rotate-gradient {
   to {
-    transform: rotate(360deg);
+    --angle: 360deg;
   }
 }
 
