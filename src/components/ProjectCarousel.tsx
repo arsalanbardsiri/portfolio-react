@@ -1,4 +1,3 @@
-
 import { FC } from 'react'
 import data from '../data/portfolioData.json'
 import Slider from 'react-slick'
@@ -12,29 +11,42 @@ export const ProjectCarousel: FC = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    adaptiveHeight: true
+    adaptiveHeight: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
   }
 
   return (
-    <section id="projects" className="container fade-up">
-      <h2 className="section-title">Projects</h2>
-      <div className="card">
+    <section id="projects" className="container">
+      <h2 className="section-title">Featured Projects</h2>
+      <div className="glass-card" style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}>
         <Slider {...settings}>
           {data.projects.map((p) => (
-            <div key={p.id} style={{ padding: 8 }}>
-              <div className="grid cols-2">
-                <div>
-                  <img src={p.imageUrl} alt={p.title} style={{ borderRadius: '12px' }} />
+            <div key={p.id} style={{ outline: 'none' }}>
+              <div className="grid grid-cols-2" style={{ gap: '40px', alignItems: 'center' }}>
+                <div style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+                  <img src={p.imageUrl} alt={p.title} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.5s ease' }} />
                 </div>
                 <div>
-                  <h3 style={{ marginTop: 0 }}>{p.title}</h3>
-                  <p className="muted">{p.description}</p>
-                  <div style={{ marginBottom: 12 }}>
-                    {p.tech.map((t: string) => (<span key={t} className="tag">{t}</span>))}
+                  <h3 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#fff' }}>{p.title}</h3>
+                  <p className="muted" style={{ fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: 1.7 }}>{p.description}</p>
+                  <div style={{ marginBottom: '2rem', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {p.tech.map((t: string) => (
+                      <span key={t} className="tag" style={{
+                        background: 'rgba(0, 242, 255, 0.1)',
+                        color: 'var(--primary)',
+                        border: '1px solid rgba(0, 242, 255, 0.2)',
+                        padding: '6px 14px',
+                        borderRadius: '20px',
+                        fontSize: '0.9rem'
+                      }}>
+                        {t}
+                      </span>
+                    ))}
                   </div>
-                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <a className="btn" href={p.links.live} target="_blank" rel="noreferrer">Live</a>
-                    <a className="btn secondary" href={p.links.github} target="_blank" rel="noreferrer">Source</a>
+                  <div style={{ display: 'flex', gap: 16 }}>
+                    <a className="btn btn-primary" href={p.links.live} target="_blank" rel="noreferrer">Live Demo</a>
+                    <a className="btn btn-secondary" href={p.links.github} target="_blank" rel="noreferrer">Source Code</a>
                   </div>
                 </div>
               </div>
@@ -42,6 +54,24 @@ export const ProjectCarousel: FC = () => {
           ))}
         </Slider>
       </div>
+
+      <style>{`
+        .slick-dots li button:before {
+          color: var(--text-muted);
+          font-size: 12px;
+        }
+        .slick-dots li.slick-active button:before {
+          color: var(--primary);
+        }
+        .slick-prev:before, .slick-next:before {
+          color: var(--primary);
+        }
+        @media (max-width: 768px) {
+          .grid-cols-2 {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }
