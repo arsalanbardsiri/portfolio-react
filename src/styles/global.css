@@ -125,8 +125,20 @@ img {
 }
 
 section {
-  padding: 200px 0;
+  padding: 250px 0;
   position: relative;
+}
+
+section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: radial-gradient(circle, var(--glass-border) 0%, transparent 100%);
+  opacity: 0.5;
 }
 
 /* Glassmorphism Utilities */
