@@ -102,7 +102,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             <p className="muted" style={{ fontSize: '1.2rem', maxWidth: '500px', marginBottom: '2.5rem', lineHeight: 1.6 }}>
               {data.about.bio}
             </p>
-            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div className="hero-buttons" style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -224,6 +224,16 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
           div[style*="min-height: 60px"] {
             min-height: 80px !important;
             margin-bottom: 2rem !important;
+          }
+          /* Force vertical stack for buttons */
+          .hero-buttons {
+            flex-direction: column !important;
+            gap: 1rem !important;
+            width: 100%;
+          }
+          .hero-buttons .btn {
+            width: 100%;
+            max-width: 300px;
           }
         }
       `}</style>
