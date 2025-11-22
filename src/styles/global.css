@@ -227,6 +227,11 @@ section::after {
   border: none;
   outline: none;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-decoration: none;
+  /* Ensure links don't have underlines */
+  line-height: 1.2;
+  /* Ensure consistent height */
 }
 
 .btn-primary {

@@ -28,7 +28,6 @@ export const ContactSection: FC = () => {
             whileTap={{ scale: 0.95 }}
             href={`mailto:${data.contact.email}`}
             className="btn btn-primary"
-            style={{ fontSize: '1.2rem', padding: '12px 30px' }}
           >
             Say Hello
           </motion.a>
