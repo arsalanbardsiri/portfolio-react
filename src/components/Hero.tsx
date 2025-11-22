@@ -89,7 +89,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             <h1 className="text-gradient" style={{ fontSize: '4rem', fontWeight: 800, marginBottom: '1rem', lineHeight: 1.1 }}>
               {data.name}
             </h1>
-            <div style={{ fontSize: '2rem', marginBottom: '1.5rem', height: '60px', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '2rem', marginBottom: '1.5rem', minHeight: '60px', color: 'var(--text-muted)' }}>
               <Typewriter
                 options={{
                   strings: data.typewriterTexts,
@@ -218,6 +218,11 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
           }
           div[style*="display: flex"] {
             justify-content: center;
+          }
+          /* Fix Typewriter overlap on mobile */
+          div[style*="min-height: 60px"] {
+            min-height: 80px !important;
+            margin-bottom: 2rem !important;
           }
         }
       `}</style>

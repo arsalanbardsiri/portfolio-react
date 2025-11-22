@@ -36,7 +36,7 @@ export const NavBar: FC<NavBarProps> = ({ onNavigate, onToggleTheme, isDarkMode 
         borderRadius: '24px',
         transition: 'all 0.3s ease',
         background: scrolled ? 'var(--glass-bg)' : 'transparent',
-        border: scrolled ? '1px solid var(--glass-border)' : 'none',
+        border: scrolled ? '1px solid var(--glass-border)' : '1px solid transparent',
         backdropFilter: scrolled ? 'blur(12px)' : 'none'
       }}
     >
