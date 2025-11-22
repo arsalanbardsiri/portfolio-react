@@ -251,8 +251,22 @@ section::after {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--text);
+  background: rgba(0, 242, 255, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+}
+
+/* Nav Links */
+.nav-link {
+  color: var(--text) !important;
+  /* Force neutral default */
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--primary) !important;
+  text-shadow: 0 0 8px rgba(0, 242, 255, 0.5);
 }
 
 /* Text Gradients */
