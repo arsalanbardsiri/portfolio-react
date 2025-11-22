@@ -242,6 +242,8 @@ section::after {
 
 .btn-primary:hover {
   box-shadow: 0 8px 25px rgba(0, 242, 255, 0.5);
+  color: #fff;
+  /* Match global a:hover behavior */
 }
 
 .btn-secondary {
