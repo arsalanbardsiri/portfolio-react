@@ -102,7 +102,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             <p className="muted" style={{ fontSize: '1.2rem', maxWidth: '500px', marginBottom: '2.5rem', lineHeight: 1.6 }}>
               {data.about.bio}
             </p>
-            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -115,7 +115,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn btn-secondary"
-                href="/resume.pdf"
+                href={data.resumeUrl}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -217,7 +217,8 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             margin: 0 auto 2.5rem auto;
           }
           div[style*="display: flex"] {
-            justify-content: center;
+            justify-content: center !important;
+            align-items: center !important;
           }
           /* Fix Typewriter overlap on mobile */
           div[style*="min-height: 60px"] {

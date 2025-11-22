@@ -1,7 +1,9 @@
 import profileImg from '../assets/images/IMG_2929.jpeg';
+import resumePdf from '../assets/pdf/resume.pdf';
 
 export const portfolioData = {
     "profile": profileImg,
+    "resumeUrl": resumePdf,
     "name": "Arsalan Bardsiri",
     "title": "Full-Stack Developer",
     "typewriterTexts": [
