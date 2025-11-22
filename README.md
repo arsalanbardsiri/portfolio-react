@@ -1,23 +1,25 @@
-# Modern React Portfolio
+# Modern React Portfolio (2025 Edition)
 
-A premium, high-performance portfolio website built with **React**, **TypeScript**, and **Framer Motion**. It features a stunning dark/light theme with glassmorphism, physics-based interactions, and a fully responsive design.
+A premium, high-performance portfolio website built with **React**, **TypeScript**, and **Framer Motion**. It features a stunning "Geometric Tech" theme with glassmorphism, physics-based interactions, and a fully responsive design optimized for 2025 industry standards.
 
 ## 🚀 Features
 
-- **🎨 Premium Design System**:
-  - **Glassmorphism**: Modern, frosted-glass UI elements.
+- **🎨 Geometric Tech Design System**:
+  - **Glassmorphism**: Modern, frosted-glass UI elements with rotating light borders.
+  - **Dynamic Backgrounds**: Dot grid patterns and parallax floating shapes.
   - **Dark/Light Mode**: Deep navy/cyan for dark mode, crisp white/blue for light mode.
   - **Neon Aesthetics**: Glowing accents and gradients.
 
 - **✨ Advanced Animations**:
   - **Neon Pull Switch**: A custom physics-based pull cord to toggle themes (built with Framer Motion).
   - **Staggered Reveals**: Content cascades in smoothly as you scroll.
-  - **Floating Avatar**: Interactive 3D-style floating profile image.
-  - **Micro-interactions**: Hover effects, tilt cards, and magnetic buttons.
+  - **Floating Avatar**: Interactive 3D-style floating profile image with orbiting satellites.
+  - **Micro-interactions**: Magnetic buttons, "breathing" hover effects, and tilt cards.
 
-- **📱 Fully Responsive**:
+- **📱 Fully Responsive & Accessible**:
   - Adaptive grid layouts for all screen sizes.
   - Mobile-first navigation with a smooth hamburger menu.
+  - **A11y Compliant**: Full keyboard navigation and screen reader support.
 
 - **⚡ Tech Stack**:
   - **React 18** + **TypeScript**
@@ -78,8 +80,8 @@ Images are located in `src/assets/images/`.
     ```
 
 ### 3. Update Resume
-- Place your resume PDF in the `public/` folder.
-- Rename it to `resume.pdf` (or update the link in `src/components/Hero.tsx` if you prefer a different name).
+- Place your resume PDF in `src/assets/pdf/`.
+- Rename it to `resume.pdf` (or update the import in `src/data/portfolioData.ts`).
 
 ### 4. Customize Colors
 Want a different color scheme? Open `src/styles/global.css` and modify the CSS variables at the top:
@@ -91,14 +93,24 @@ Want a different color scheme? Open `src/styles/global.css` and modify the CSS v
 }
 ```
 
+## 🚀 Deployment
+
+This project is optimized for **Vercel** or **Netlify**.
+
+1.  Push your code to GitHub.
+2.  Import the repository into Vercel/Netlify.
+3.  It will automatically detect Vite and deploy.
+4.  (Optional) Connect your custom domain.
+
 ## 📂 Project Structure
 
 ```
 portfolio-react/
-├── public/              # Static assets (resume.pdf, favicon)
+├── public/              # Static assets (favicon)
 ├── src/
-│   ├── assets/          # Images and media
-│   │   └── images/      # Profile and project images
+│   ├── assets/          # Images, PDFs, and media
+│   │   ├── images/      # Profile and project images
+│   │   └── pdf/         # Resume file
 │   ├── components/      # Reusable UI components (Hero, NavBar, etc.)
 │   ├── data/            # Content data (portfolioData.ts)
 │   ├── styles/          # Global styles and themes
