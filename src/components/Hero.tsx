@@ -17,9 +17,6 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
       paddingTop: '120px',
       position: 'relative',
       overflow: 'hidden',
-      // Dot Grid Background
-      backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
-      backgroundSize: '30px 30px'
     }}>
       {/* Background Gradient Blob */}
       <div style={{

@@ -6,6 +6,7 @@ import { ProjectCarousel } from './components/ProjectCarousel'
 import { SkillsGrid } from './components/SkillsGrid'
 import { ContactSection } from './components/ContactSection'
 import { Footer } from './components/Footer'
+import { BackgroundShapes } from './components/BackgroundShapes'
 import { useTheme } from './hooks/useTheme'
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
         <ContactSection />
       </main>
       <Footer />
+      <BackgroundShapes />
     </div>
   )
 }
