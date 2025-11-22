@@ -67,7 +67,12 @@ export const NavBar: FC<NavBarProps> = ({ onNavigate, onToggleTheme, isDarkMode 
         </nav>
 
         {/* Mobile Menu Button */}
-        <button className="mobile-toggle" onClick={toggleMenu} style={{ display: 'none', background: 'none', border: 'none', color: 'var(--text)', fontSize: '1.5rem', cursor: 'pointer' }}>
+        <button
+          className="mobile-toggle"
+          onClick={toggleMenu}
+          aria-label="Toggle navigation menu"
+          style={{ display: 'none', background: 'none', border: 'none', color: 'var(--text)', fontSize: '1.5rem', cursor: 'pointer' }}
+        >
           {isOpen ? '✕' : '☰'}
         </button>
       </div>

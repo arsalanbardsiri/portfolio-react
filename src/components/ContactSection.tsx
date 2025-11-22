@@ -32,13 +32,13 @@ export const ContactSection: FC = () => {
             Say Hello
           </motion.a>
           <div style={{ display: 'flex', gap: '15px', marginTop: '10px' }}>
-            <motion.a whileHover={{ y: -3 }} href={data.contact.github} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }}>
+            <motion.a whileHover={{ y: -3 }} href={data.contact.github} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }} aria-label="GitHub Profile">
               <i className="fab fa-github"></i> GitHub
             </motion.a>
-            <motion.a whileHover={{ y: -3 }} href={data.contact.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }}>
+            <motion.a whileHover={{ y: -3 }} href={data.contact.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }} aria-label="LinkedIn Profile">
               <i className="fab fa-linkedin"></i> LinkedIn
             </motion.a>
-            <motion.a whileHover={{ y: -3 }} href={data.contact.twitter} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }}>
+            <motion.a whileHover={{ y: -3 }} href={data.contact.twitter} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }} aria-label="Twitter Profile">
               <i className="fab fa-twitter"></i> Twitter
             </motion.a>
           </div>

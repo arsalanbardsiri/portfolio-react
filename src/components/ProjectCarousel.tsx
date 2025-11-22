@@ -38,7 +38,12 @@ export const ProjectCarousel: FC = () => {
             <div key={p.id} style={{ outline: 'none' }}>
               <div className="grid grid-cols-2" style={{ gap: '40px', alignItems: 'center' }}>
                 <div style={{ borderRadius: '12px', overflow: 'hidden' }}>
-                  <img src={p.imageUrl} alt={p.title} style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.5s ease' }} />
+                  <img
+                    src={p.imageUrl}
+                    alt={p.title}
+                    loading="lazy"
+                    style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.5s ease' }}
+                  />
                 </div>
                 <div>
                   <h3 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--text)' }}>{p.title}</h3>
