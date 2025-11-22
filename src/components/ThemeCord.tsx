@@ -14,18 +14,21 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
     const x = useMotionValue(0)
     const y = useMotionValue(0)
 
-    // Spring physics for the "swing" return
-    const springX = useSpring(x, { stiffness: 300, damping: 15 })
-    const springY = useSpring(y, { stiffness: 300, damping: 15 })
+    // Spring physics for the "floppy" swing return
+    // Lower stiffness = looser/floppier feel
+    const springX = useSpring(x, { stiffness: 150, damping: 10 })
+    const springY = useSpring(y, { stiffness: 150, damping: 10 })
 
     // SVG Line coordinates (attached to handle)
-    // The handle starts at top=60, so we add 60 to the springY for the line end
-    const lineX = useTransform(springX, (val) => val + 20) // +20 to center in 40px container
+    // Container is 40px wide, center is 20px.
+    // Handle is centered at 20px (left: 50%).
+    // Line ends at handle's top center (20 + x, 60 + y).
+    const lineX = useTransform(springX, (val) => val + 20)
     const lineY = useTransform(springY, (val) => val + 60)
 
     // Glow colors based on theme
     const glowColor = isDarkMode ? '#00f2ff' : '#7000ff'
-    const cordColor = isDarkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)'
+    const cordColor = isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
 
     const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         setIsDragging(false)
@@ -38,7 +41,7 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
             onToggle()
         }
 
-        // Reset position (springs will handle the animation)
+        // Reset position (springs will handle the animation back to 0,0)
         x.set(0)
         y.set(0)
     }
@@ -83,7 +86,7 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
                 ))}
             </motion.div>
 
-            {/* SVG Dotted Cord */}
+            {/* SVG Chain Cord */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'visible' }}>
                 <motion.line
                     x1="20"
@@ -91,8 +94,8 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
                     x2={lineX}
                     y2={lineY}
                     stroke={cordColor}
-                    strokeWidth="2"
-                    strokeDasharray="4 4"
+                    strokeWidth="3"
+                    strokeDasharray="1 3"
                     strokeLinecap="round"
                 />
             </svg>
@@ -100,30 +103,22 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
             {/* The Handle (Neon Ring) */}
             <motion.div
                 drag
+                dragSnapToOrigin
                 dragConstraints={{ top: 0, bottom: 100, left: -50, right: 50 }}
-                dragElastic={0.1}
+                dragElastic={0.2}
                 onDragStart={() => setIsDragging(true)}
                 onDragEnd={handleDragEnd}
                 onDrag={(_, info) => {
                     x.set(info.offset.x)
                     y.set(info.offset.y)
                 }}
-                animate={{
-                    y: isDragging ? undefined : [0, 5, 0] // Subtle bobbing when idle
-                }}
-                transition={{
-                    y: {
-                        repeat: Infinity,
-                        duration: 3,
-                        ease: "easeInOut",
-                        repeatType: "reverse"
-                    }
-                }}
                 style={{
                     x: springX,
                     y: springY,
                     position: 'absolute',
                     top: 60, // Initial cord length
+                    left: '50%', // Explicitly center
+                    marginLeft: '-12px', // Offset by half width to center
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
@@ -132,8 +127,7 @@ export const ThemeCord: FC<ThemeCordProps> = ({ isDarkMode, onToggle }) => {
                     boxShadow: `0 0 15px ${glowColor}, inset 0 0 10px ${glowColor}`,
                     cursor: 'grab',
                     touchAction: 'none',
-                    pointerEvents: 'auto', // Re-enable pointer events for the handle
-                    marginLeft: '-12px' // Center the handle (since it's absolute)
+                    pointerEvents: 'auto',
                 }}
                 whileHover={{ scale: 1.1, cursor: 'grab' }}
                 whileTap={{ cursor: 'grabbing', scale: 0.95 }}
