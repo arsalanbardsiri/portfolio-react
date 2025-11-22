@@ -241,7 +241,6 @@ section::after {
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 242, 255, 0.5);
 }
 
@@ -254,7 +253,6 @@ section::after {
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: var(--text);
-  transform: translateY(-2px);
 }
 
 /* Text Gradients */

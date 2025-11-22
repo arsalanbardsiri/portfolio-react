@@ -104,7 +104,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             </p>
             <div className="hero-buttons" style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn btn-primary"
                 onClick={() => onNavigate('projects')}
@@ -112,7 +112,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
                 View Projects
               </motion.button>
               <motion.a
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn btn-secondary"
                 href={data.resumeUrl}
@@ -122,7 +122,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
                 Download Resume
               </motion.a>
               <motion.a
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn btn-secondary"
                 href={data.contact.github}

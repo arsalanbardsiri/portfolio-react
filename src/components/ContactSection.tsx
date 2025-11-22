@@ -24,7 +24,7 @@ export const ContactSection: FC = () => {
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
           <motion.a
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             href={`mailto:${data.contact.email}`}
             className="btn btn-primary"

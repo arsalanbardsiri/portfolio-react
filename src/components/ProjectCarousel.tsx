@@ -59,7 +59,7 @@ export const ProjectCarousel: FC = () => {
                   </div>
                   <div style={{ display: 'flex', gap: 16 }}>
                     <motion.a
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       className="btn btn-primary"
                       href={p.links.live}
@@ -69,7 +69,7 @@ export const ProjectCarousel: FC = () => {
                       Live Demo
                     </motion.a>
                     <motion.a
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       className="btn btn-secondary"
                       href={p.links.github}
