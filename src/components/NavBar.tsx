@@ -149,6 +149,12 @@ export const NavBar: FC<NavBarProps> = ({ onNavigate, onToggleTheme, isDarkMode 
           .desktop-nav {
             display: none !important;
           }
+          .brand {
+            display: none !important;
+          }
+          .nav-inner {
+            justify-content: center !important;
+          }
           .mobile-toggle {
             display: block !important;
           }
