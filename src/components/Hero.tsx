@@ -2,6 +2,7 @@ import { FC } from "react";
 import Typewriter from "typewriter-effect";
 import { portfolioData as data } from '../data/portfolioData';
 import { motion } from "framer-motion";
+import { DotGrid } from "./DotGrid";
 
 interface HeroProps {
   onNavigate: (id: string) => void;
@@ -128,6 +129,9 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
           zIndex: 0
         }}
       />
+
+      {/* Neon Dot Grid */}
+      <DotGrid />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="grid" style={{
