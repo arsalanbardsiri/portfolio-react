@@ -28,6 +28,11 @@
   --radius-full: 9999px;
 
   --font-main: 'Outfit', sans-serif;
+
+  /* Aurora Gradient Colors (Dark Mode) */
+  --aurora-1: rgba(0, 242, 255, 0.2);
+  --aurora-2: rgba(112, 0, 255, 0.15);
+  --aurora-3: rgba(0, 81, 255, 0.15);
 }
 
 [data-theme='light'] {
@@ -41,7 +46,8 @@
   /* Purple */
   --accent-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
 
-  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.6);
+  /* More transparent for light mode glass */
   --card-border: rgba(0, 0, 0, 0.05);
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(0, 0, 0, 0.05);
@@ -50,6 +56,11 @@
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
   --shadow-glow: 0 0 20px rgba(0, 81, 255, 0.15);
+
+  /* Aurora Gradient Colors (Light Mode) */
+  --aurora-1: rgba(0, 180, 255, 0.25);
+  --aurora-2: rgba(130, 80, 255, 0.2);
+  --aurora-3: rgba(0, 200, 200, 0.2);
 }
 
 /* Reset & Base Styles */
@@ -161,13 +172,15 @@ section::after {
 .glass-card {
   background: var(--card-bg);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05); /* Thinner, more subtle border */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  /* Thinner, more subtle border */
   border-radius: var(--radius-md);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
   z-index: 1;
-  overflow: hidden; /* Ensure inner glow doesn't spill */
+  overflow: hidden;
+  /* Ensure inner glow doesn't spill */
 }
 
 /* Rotating Light Border Effect - Refined */
@@ -175,7 +188,8 @@ section::after {
   content: '';
   position: absolute;
   inset: 0;
-  padding: 1px; /* Thinner gradient border */
+  padding: 1px;
+  /* Thinner gradient border */
   border-radius: inherit;
   background: conic-gradient(from var(--angle),
       transparent 0%,
@@ -193,7 +207,8 @@ section::after {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
-  animation: rotate-gradient 4s linear infinite; /* Slower rotation */
+  animation: rotate-gradient 4s linear infinite;
+  /* Slower rotation */
 }
 
 .glass-card:hover::before {
@@ -202,8 +217,10 @@ section::after {
 
 .glass-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 255, 0.1); /* Refined glow */
-  border-color: rgba(0, 242, 255, 0.2); /* Subtle border color change */
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 255, 0.1);
+  /* Refined glow */
+  border-color: rgba(0, 242, 255, 0.2);
+  /* Subtle border color change */
 }
 
 @keyframes rotate-gradient {

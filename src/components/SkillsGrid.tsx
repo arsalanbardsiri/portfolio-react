@@ -80,15 +80,18 @@ export const SkillsGrid: FC = () => {
         .item-0 {
           grid-column: span 2; /* Frontend spans 2 columns */
           grid-row: span 2;    /* And 2 rows for prominence */
-          background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(0, 242, 255, 0.05) 100%);
+          background: var(--card-bg); /* Use global card bg */
+          background-image: linear-gradient(135deg, var(--card-bg) 0%, var(--aurora-1) 100%); /* Subtle tint */
         }
 
         .item-1 {
           grid-column: span 1; /* Backend */
+          background: var(--card-bg);
         }
 
         .item-2 {
           grid-column: span 1; /* Tools */
+          background: var(--card-bg);
         }
 
         @media (max-width: 900px) {

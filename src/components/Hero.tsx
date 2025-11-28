@@ -44,7 +44,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             left: '-10%',
             width: '600px',
             height: '600px',
-            background: 'radial-gradient(circle, rgba(0, 242, 255, 0.2) 0%, rgba(0, 0, 0, 0) 70%)',
+            background: 'radial-gradient(circle, var(--aurora-1) 0%, rgba(0, 0, 0, 0) 70%)',
             filter: 'blur(60px)',
           }}
         />
@@ -62,7 +62,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             right: '-10%',
             width: '700px',
             height: '700px',
-            background: 'radial-gradient(circle, rgba(112, 0, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+            background: 'radial-gradient(circle, var(--aurora-2) 0%, rgba(0, 0, 0, 0) 70%)',
             filter: 'blur(80px)',
           }}
         />
@@ -80,7 +80,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
             left: '30%',
             width: '800px',
             height: '800px',
-            background: 'radial-gradient(circle, rgba(0, 81, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+            background: 'radial-gradient(circle, var(--aurora-3) 0%, rgba(0, 0, 0, 0) 70%)',
             filter: 'blur(100px)',
           }}
         />
