@@ -69,7 +69,7 @@ export const portfolioData = {
         },
         {
             "id": "p2",
-            "title": "ProjectIt V2",
+            "title": "ProjectIt",
             "description": "A distributed real-time collaboration platform using Microservices principles, WebSocket clusters, and background job queues.",
             "tech": [
                 "Next.js 16",
