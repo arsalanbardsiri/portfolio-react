@@ -53,7 +53,7 @@ export const portfolioData = {
                 "MongoDB",
                 "Socket.io"
             ],
-            "imageUrl": "https://images.unsplash.com/photo-1499750310159-5b5f2269596b?q=80&w=800&auto=format&fit=crop",
+            "imageUrl": "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=800&auto=format&fit=crop",
             "links": {
                 "github": "https://github.com/arsalanbardsiri/bloglog",
                 "live": "https://bloglog.vercel.app"
@@ -108,6 +108,6 @@ export const portfolioData = {
         "email": "arsalan.bardsiri@example.com",
         "github": "https://github.com/arsalanbardsiri",
         "linkedin": "https://www.linkedin.com/in/arsalan-bardsiri/",
-        "twitter": "https://twitter.com/arsalanbardsiri"
+        "devto": "https://dev.to/arsalanbardsiri"
     }
 };

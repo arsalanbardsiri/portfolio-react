@@ -38,8 +38,9 @@ export const ContactSection: FC = () => {
             <motion.a whileHover={{ y: -3 }} href={data.contact.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }} aria-label="LinkedIn Profile">
               <i className="fab fa-linkedin"></i> LinkedIn
             </motion.a>
-            <motion.a whileHover={{ y: -3 }} href={data.contact.twitter} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }} aria-label="Twitter Profile">
-              <i className="fab fa-twitter"></i> Twitter
+            {/* @ts-ignore */}
+            <motion.a whileHover={{ y: -3 }} href={data.contact.devto} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '1.5rem' }} aria-label="Dev.to Profile">
+              <i className="fab fa-dev"></i> Dev.to
             </motion.a>
           </div>
         </div>
