@@ -15,7 +15,7 @@ export const portfolioData = {
     "title": "Full-Stack Software Engineer",
     "typewriterTexts": [
         "Hybrid Full-stack/DevOps Developer",
-        "Full Cycle/AI Augmented Development",
+        "Full Cycle & AI Augmented Development",
         "QA Automation & SRE Expert"
     ],
     "about": {
