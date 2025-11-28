@@ -38,11 +38,11 @@ export const portfolioData = {
     "skills": [
         {
             "category": "Frontend & AI",
-            "items": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS"]
+            "items": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Google Gemini API"]
         },
         {
             "category": "Backend & Distributed",
-            "items": ["Node.js", "Express", "Redis (Pub/Sub)", "Socket.io", "PostgreSQL", "Supabase", "Google Gemini API"]
+            "items": ["Node.js", "Express", "Redis (Pub/Sub)", "Socket.io", "PostgreSQL", "Supabase"]
         },
         {
             "category": "DevOps & QA",
