@@ -161,26 +161,26 @@ section::after {
 .glass-card {
   background: var(--card-bg);
   backdrop-filter: blur(10px);
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Thinner, more subtle border */
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
   z-index: 1;
+  overflow: hidden; /* Ensure inner glow doesn't spill */
 }
 
-/* Rotating Light Border Effect */
+/* Rotating Light Border Effect - Refined */
 .glass-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  padding: 2px;
-  /* Thickness of the glowing border */
+  padding: 1px; /* Thinner gradient border */
   border-radius: inherit;
   background: conic-gradient(from var(--angle),
       transparent 0%,
-      var(--primary) 20%,
-      transparent 40%);
+      var(--primary) 15%,
+      transparent 30%);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -193,7 +193,7 @@ section::after {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
-  animation: rotate-gradient 3s linear infinite;
+  animation: rotate-gradient 4s linear infinite; /* Slower rotation */
 }
 
 .glass-card:hover::before {
@@ -202,9 +202,8 @@ section::after {
 
 .glass-card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
-  border-color: transparent;
-  /* Hide original border to show glow */
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 255, 0.1); /* Refined glow */
+  border-color: rgba(0, 242, 255, 0.2); /* Subtle border color change */
 }
 
 @keyframes rotate-gradient {

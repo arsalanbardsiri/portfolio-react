@@ -29,18 +29,18 @@ export const portfolioData = {
         ]
     },
     "skills": [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "Next.js",
-        "Tailwind CSS",
-        "Framer Motion",
-        "PostgreSQL",
-        "GraphQL",
-        "Docker",
-        "AWS",
-        "Git",
-        "Figma"
+        {
+            "category": "Frontend Powerhouse",
+            "items": ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion"]
+        },
+        {
+            "category": "Backend & Cloud",
+            "items": ["Node.js", "PostgreSQL", "GraphQL", "AWS", "Docker"]
+        },
+        {
+            "category": "Design & Tools",
+            "items": ["Figma", "Git", "Vite", "CI/CD"]
+        }
     ],
     "projects": [
         {

@@ -19,17 +19,72 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
       overflow: 'hidden',
     }}>
       {/* Background Gradient Blob */}
+      {/* Aurora Mesh Gradient Background */}
       <div style={{
         position: 'absolute',
-        top: '20%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '600px',
-        height: '600px',
-        background: 'radial-gradient(circle, rgba(0, 242, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
         zIndex: -1,
         pointerEvents: 'none'
-      }} />
+      }}>
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            position: 'absolute',
+            top: '-20%',
+            left: '-10%',
+            width: '600px',
+            height: '600px',
+            background: 'radial-gradient(circle, rgba(0, 242, 255, 0.2) 0%, rgba(0, 0, 0, 0) 70%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.5, 0.2]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          style={{
+            position: 'absolute',
+            top: '20%',
+            right: '-10%',
+            width: '700px',
+            height: '700px',
+            background: 'radial-gradient(circle, rgba(112, 0, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+            filter: 'blur(80px)',
+          }}
+        />
+        <motion.div
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 100, 0],
+            scale: [1, 1.1, 1],
+            opacity: [0.1, 0.4, 0.1]
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+          style={{
+            position: 'absolute',
+            bottom: '-20%',
+            left: '30%',
+            width: '800px',
+            height: '800px',
+            background: 'radial-gradient(circle, rgba(0, 81, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+            filter: 'blur(100px)',
+          }}
+        />
+      </div>
 
       {/* Floating Geometric Shapes */}
       <motion.div
