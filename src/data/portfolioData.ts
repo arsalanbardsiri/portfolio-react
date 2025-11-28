@@ -7,9 +7,9 @@ export const portfolioData = {
     "name": "Arsalan Bardsiri",
     "title": "Full-Stack Developer",
     "typewriterTexts": [
-        "Hybrid Full-Stack/DevOps Developer",
-        "UI/UX Enthusiast",
-        "Problem Solver"
+        "Hybrid Full-stack/DevOps Developer",
+        "Full Cycle/AI Augmented Development",
+        "QA Automation/SRE Expert"
     ],
     "about": {
         "bio": "I am a passionate developer with a knack for building beautiful, functional, and scalable web applications. With expertise in the modern React stack and a keen eye for design, I transform ideas into digital reality.",
