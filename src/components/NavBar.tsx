@@ -42,7 +42,7 @@ export const NavBar: FC<NavBarProps> = ({ onNavigate, onToggleTheme, isDarkMode 
     >
       <div className="nav-inner" style={{ padding: '16px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className="brand text-gradient" style={{ fontSize: '1.8rem', cursor: 'pointer', fontWeight: 700 }} onClick={() => onNavigate('home')}>
-          Arsalan.dev
+          Arsalanbardsiri.dev
         </div>
 
         {/* Desktop Menu */}
