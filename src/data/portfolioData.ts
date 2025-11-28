@@ -1,59 +1,67 @@
+// IMAGES
+// Note: verify the extensions match exactly (.png vs .jpg vs .jpeg)
 import profileImg from '../assets/images/IMG_2929.jpeg';
+import blogLogImg from '../assets/images/bloglounge.png';
+import projectItImg from '../assets/images/projectit.png';
+import catlenderImg from '../assets/images/catlender.png';
+
+// PDF
 import resumePdf from '../assets/pdf/resume.pdf';
 
 export const portfolioData = {
     "profile": profileImg,
     "resumeUrl": resumePdf,
     "name": "Arsalan Bardsiri",
-    "title": "Full-Stack Developer",
+    "title": "Full-Stack Software Engineer",
     "typewriterTexts": [
         "Hybrid Full-stack/DevOps Developer",
         "Full Cycle/AI Augmented Development",
-        "QA Automation/SRE Expert"
+        "QA Automation & SRE Expert"
     ],
     "about": {
-        "bio": "I am a passionate developer with a knack for building beautiful, functional, and scalable web applications. With expertise in the modern React stack and a keen eye for design, I transform ideas into digital reality.",
+        "bio": "I am a hybrid software engineer bridging the gap between development and quality assurance. With a strong background in distributed systems and automation, I build scalable, reliable web applications using the modern React stack and cloud-native architecture.",
         "stats": [
             {
                 "label": "Years Experience",
                 "value": "3+"
             },
             {
-                "label": "Projects Completed",
-                "value": "15+"
+                "label": "Projects Shipped",
+                "value": "20+"
             },
             {
-                "label": "Happy Clients",
-                "value": "10+"
+                "label": "Stack Coverage",
+                "value": "100%"
             }
         ]
     },
     "skills": [
         {
-            "category": "Frontend Powerhouse",
-            "items": ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion"]
+            "category": "Frontend & AI",
+            "items": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Google Gemini API"]
         },
         {
-            "category": "Backend & Cloud",
-            "items": ["Node.js", "PostgreSQL", "GraphQL", "AWS", "Docker"]
+            "category": "Backend & Distributed",
+            "items": ["Node.js", "Express", "Redis (Pub/Sub)", "Socket.io", "PostgreSQL", "Supabase"]
         },
         {
-            "category": "Design & Tools",
-            "items": ["Figma", "Git", "Vite", "CI/CD"]
+            "category": "DevOps & QA",
+            "items": ["Docker", "GitHub Actions", "Cypress", "Playwright", "JMeter"]
         }
     ],
     "projects": [
         {
             "id": "p1",
-            "title": "BlogLog",
-            "description": "A full-stack blogging platform featuring real-time updates, rich text editing, and a modern content management system.",
+            "title": "Blog Lounge",
+            "description": "A high-scale distributed content platform featuring Cache-Aside patterns, rate limiting, and an 'Origami Notebook' aesthetic.",
             "tech": [
-                "React",
-                "Node.js",
-                "MongoDB",
-                "Socket.io"
+                "Next.js 16",
+                "Express",
+                "Redis",
+                "PostgreSQL",
+                "Playwright"
             ],
-            "imageUrl": "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=800&auto=format&fit=crop",
+            "imageUrl": blogLogImg, // Using the imported variable
             "links": {
                 "github": "https://github.com/arsalanbardsiri/bloglog",
                 "live": "https://bloglog.vercel.app"
@@ -61,15 +69,16 @@ export const portfolioData = {
         },
         {
             "id": "p2",
-            "title": "ProjectIt",
-            "description": "A comprehensive project management tool designed for agile teams, featuring task tracking, collaboration boards, and analytics.",
+            "title": "ProjectIt V2",
+            "description": "A distributed real-time collaboration platform using Microservices principles, WebSocket clusters, and background job queues.",
             "tech": [
-                "React",
-                "TypeScript",
-                "Firebase",
-                "Tailwind"
+                "Next.js 16",
+                "Express",
+                "Socket.io",
+                "Redis Adapter",
+                "Prisma"
             ],
-            "imageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
+            "imageUrl": projectItImg, // Using the imported variable
             "links": {
                 "github": "https://github.com/arsalanbardsiri/ProjectIt",
                 "live": "https://project-it-one.vercel.app"
@@ -78,13 +87,15 @@ export const portfolioData = {
         {
             "id": "p3",
             "title": "Catlender",
-            "description": "A whimsical yet functional calendar application that combines productivity with daily doses of feline joy.",
+            "description": "An AI-Augmented productivity tool featuring a 'Cat Concierge' agent (Google Gemini) for smart scheduling and daily briefings.",
             "tech": [
-                "React",
-                "API Integration",
-                "CSS Modules"
+                "Next.js 16",
+                "Supabase",
+                "Google GenAI",
+                "Tailwind",
+                "Shadcn UI"
             ],
-            "imageUrl": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=800&auto=format&fit=crop",
+            "imageUrl": catlenderImg, // Using the imported variable
             "links": {
                 "github": "https://github.com/arsalanbardsiri/Catlender",
                 "live": "https://catlender.vercel.app"
@@ -93,19 +104,30 @@ export const portfolioData = {
     ],
     "experience": [
         {
+            "title": "QA Lead & Automation Engineer",
+            "company": "Ecotrak Facility Management",
+            "period": "Oct 2023 - Dec 2024",
+            "summary": "Bridged the gap between Quality Assurance and Software Engineering.",
+            "achievements": [
+                "Engineered automation frameworks using Cypress & JMeter",
+                "Implemented CI/CD pipelines via GitHub Actions",
+                "Collaborated with dev teams to ship enterprise features"
+            ]
+        },
+        {
             "title": "Full Stack Developer",
             "company": "Freelance",
             "period": "2022 - Present",
             "summary": "Delivering high-quality web solutions for diverse clients.",
             "achievements": [
-                "Developed scalable web applications",
-                "Optimized frontend performance",
-                "Integrated secure payment gateways"
+                "Developing scalable Next.js applications",
+                "Optimizing frontend performance and SEO",
+                "Integrating secure payment gateways (Stripe)"
             ]
         }
     ],
     "contact": {
-        "email": "arsalan.bardsiri@example.com",
+        "email": "arsalanbardsiri@gmail.com",
         "github": "https://github.com/arsalanbardsiri",
         "linkedin": "https://www.linkedin.com/in/arsalan-bardsiri/",
         "devto": "https://dev.to/arsalanbardsiri"
