@@ -7,6 +7,7 @@ import { SkillsGrid } from './components/SkillsGrid'
 import { ContactSection } from './components/ContactSection'
 import { Footer } from './components/Footer'
 import { BackgroundShapes } from './components/BackgroundShapes'
+import { DotGrid } from './components/DotGrid'
 import { useTheme } from './hooks/useTheme'
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
 
   return (
     <div>
+      <DotGrid />
       <NavBar onNavigate={onNavigate} onToggleTheme={toggle} isDarkMode={theme === 'dark'} />
       <main>
         <Hero onNavigate={onNavigate} />

@@ -44,7 +44,7 @@ export const DotGrid: FC = () => {
                     x: Math.floor(Math.random() * (width / spacing)) * spacing,
                     y: Math.floor(Math.random() * (height / spacing)) * spacing,
                     opacity: 0,
-                    speed: 0.02 + Math.random() * 0.03
+                    speed: 0.005 + Math.random() * 0.01 // Slower, smoother blinking
                 });
             }
         };
@@ -86,7 +86,7 @@ export const DotGrid: FC = () => {
                         blink.x = Math.floor(Math.random() * (width / spacing)) * spacing;
                         blink.y = Math.floor(Math.random() * (height / spacing)) * spacing;
                         blink.opacity = 0;
-                        blink.speed = 0.02 + Math.random() * 0.03;
+                        blink.speed = 0.005 + Math.random() * 0.01; // New random slow speed
                     }
                 }
 
@@ -124,13 +124,13 @@ export const DotGrid: FC = () => {
         <canvas
             ref={canvasRef}
             style={{
-                position: 'absolute',
+                position: 'fixed', // Fixed to viewport for global coverage
                 top: 0,
                 left: 0,
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                zIndex: 0 // Behind content but in front of gradient
+                zIndex: -1 // Behind everything
             }}
         />
     );
