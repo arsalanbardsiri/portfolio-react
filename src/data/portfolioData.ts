@@ -45,76 +45,69 @@ export const portfolioData = {
     "projects": [
         {
             "id": "p1",
-            "title": "Project One",
-            "description": "A responsive SPA demonstrating a clean architecture and modern UI patterns.",
+            "title": "BlogLog",
+            "description": "A full-stack blogging platform featuring real-time updates, rich text editing, and a modern content management system.",
             "tech": [
                 "React",
-                "TypeScript",
-                "Vite"
+                "Node.js",
+                "MongoDB",
+                "Socket.io"
             ],
-            "imageUrl": "https://picsum.photos/id/1005/800/450",
+            "imageUrl": "https://images.unsplash.com/photo-1499750310159-5b5f2269596b?q=80&w=800&auto=format&fit=crop",
             "links": {
-                "github": "https://github.com/yourname/project-one",
-                "live": "https://project-one.demo.com"
+                "github": "https://github.com/arsalanbardsiri/bloglog",
+                "live": "https://bloglog.vercel.app"
             }
         },
         {
             "id": "p2",
-            "title": "Project Two",
-            "description": "Interactive data visualization with delightful animations.",
+            "title": "ProjectIt",
+            "description": "A comprehensive project management tool designed for agile teams, featuring task tracking, collaboration boards, and analytics.",
             "tech": [
                 "React",
-                "Framer Motion"
+                "TypeScript",
+                "Firebase",
+                "Tailwind"
             ],
-            "imageUrl": "https://picsum.photos/id/1011/800/450",
+            "imageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
             "links": {
-                "github": "https://github.com/yourname/project-two",
-                "live": "https://project-two.demo.com"
+                "github": "https://github.com/arsalanbardsiri/ProjectIt",
+                "live": "https://project-it-one.vercel.app"
             }
         },
         {
             "id": "p3",
-            "title": "Project Three",
-            "description": "API-driven app showcasing a robust component design system.",
+            "title": "Catlender",
+            "description": "A whimsical yet functional calendar application that combines productivity with daily doses of feline joy.",
             "tech": [
-                "TypeScript",
-                "React Query"
+                "React",
+                "API Integration",
+                "CSS Modules"
             ],
-            "imageUrl": "https://picsum.photos/id/1024/800/450",
+            "imageUrl": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=800&auto=format&fit=crop",
             "links": {
-                "github": "https://github.com/yourname/project-three",
-                "live": "https://project-three.demo.com"
+                "github": "https://github.com/arsalanbardsiri/Catlender",
+                "live": "https://catlender.vercel.app"
             }
         }
     ],
     "experience": [
         {
-            "title": "Senior Frontend Engineer",
-            "company": "Tech Corp",
-            "period": "2023 - Present",
-            "summary": "Leading the frontend team in migrating legacy apps to React.",
-            "achievements": [
-                "Improved performance by 40%",
-                "Mentored 3 junior devs",
-                "Implemented CI/CD pipelines"
-            ]
-        },
-        {
             "title": "Full Stack Developer",
-            "company": "StartUp Inc",
-            "period": "2021 - 2023",
-            "summary": "Built and shipped multiple features for the core product.",
+            "company": "Freelance",
+            "period": "2022 - Present",
+            "summary": "Delivering high-quality web solutions for diverse clients.",
             "achievements": [
-                "Developed key features",
-                "Reduced bug count by 25%",
-                "Collaborated with design team"
+                "Developed scalable web applications",
+                "Optimized frontend performance",
+                "Integrated secure payment gateways"
             ]
         }
     ],
     "contact": {
-        "email": "hello@example.com",
-        "github": "https://github.com/yourname",
-        "linkedin": "https://www.linkedin.com/in/yourname/",
-        "twitter": "https://twitter.com/yourname"
+        "email": "arsalan.bardsiri@example.com",
+        "github": "https://github.com/arsalanbardsiri",
+        "linkedin": "https://www.linkedin.com/in/arsalan-bardsiri/",
+        "twitter": "https://twitter.com/arsalanbardsiri"
     }
 };
