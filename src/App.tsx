@@ -3,7 +3,7 @@ import { NavBar } from './components/NavBar'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
 import { ProjectCarousel } from './components/ProjectCarousel'
-import { SkillsGrid } from './components/SkillsGrid'
+import { TechStackGraph } from './components/TechStackGraph'
 import { ContactSection } from './components/ContactSection'
 import { Footer } from './components/Footer'
 import { BackgroundShapes } from './components/BackgroundShapes'
@@ -39,7 +39,7 @@ export default function App() {
         <Hero onNavigate={onNavigate} />
         <About />
         <ProjectCarousel />
-        <SkillsGrid />
+        <TechStackGraph />
         <ContactSection />
       </main>
       <Footer />
