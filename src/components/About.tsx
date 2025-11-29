@@ -16,9 +16,9 @@ export const About: FC = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          <p className="muted" style={{ fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '20px' }}>
+          {/* <p className="muted" style={{ fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '20px' }}>
             {data.about.bio}
-          </p>
+          </p> */}
           <p className="muted" style={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
             I believe in the power of technology to transform ideas into reality. My approach combines technical expertise with a keen eye for design, ensuring that every project I work on is not only functional but also visually appealing and user-friendly.
           </p>

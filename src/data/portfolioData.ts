@@ -116,7 +116,7 @@ export const portfolioData = {
         },
         {
             "title": "Full Stack Developer",
-            "company": "Freelance",
+            "company": "Consultant / Self-Employed",
             "period": "2022 - Present",
             "summary": "Delivering high-quality web solutions for diverse clients.",
             "achievements": [
