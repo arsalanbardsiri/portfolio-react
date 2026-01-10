@@ -2,6 +2,7 @@ import { FC } from "react";
 import Typewriter from "typewriter-effect";
 import { portfolioData as data } from '../data/portfolioData';
 import { motion } from "framer-motion";
+import ParticleImage from "./ParticleImage";
 
 interface HeroProps {
   onNavigate: (id: string) => void;
@@ -203,13 +204,27 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
               <div style={{
                 width: '350px',
                 height: '350px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-                border: '4px solid rgba(0, 242, 255, 0.3)',
-                boxShadow: '0 0 40px rgba(0, 242, 255, 0.2)',
-                background: 'var(--bg-alt)'
+                // Removed borderRadius and overflow to let particles blend naturally
+                // borderRadius: '50%',
+                // overflow: 'hidden',
+
+                // Subtle glow behind the "energy field" but no hard edges
+                // background: 'radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, rgba(0,0,0,0) 70%)',
               }}>
-                <img src={data.profile} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  // overflow: 'hidden' // Remove overflow hidden to let particles spill slightly?
+                  // Keeping clean for now
+                }}>
+                  <ParticleImage
+                    src={data.profile}
+                    scale={1.3} // Increased scale for impact
+                    particleSize={2.8}
+                    hoverRadius={60} // Increased interaction radius
+                    hoverStrength={50}
+                  />
+                </div>
               </div>
             </div>
 
