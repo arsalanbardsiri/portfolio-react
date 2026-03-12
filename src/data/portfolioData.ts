@@ -14,9 +14,9 @@ export const portfolioData = {
     "name": "Arsalan Bardsiri",
     "title": "Full-Stack Software Engineer",
     "typewriterTexts": [
-        "Hybrid Full-stack/DevOps Developer",
-        "Full Cycle & AI Augmented Development",
-        "QA Automation & SRE Expert"
+        "Full-stack Developer",
+        "DevOps & Automation",
+        "QA & SRE"
     ],
     "about": {
         "bio": "I am a hybrid software engineer bridging the gap between development and quality assurance. With a strong background in distributed systems and automation, I build scalable, reliable web applications using the modern React stack and cloud-native architecture.",
