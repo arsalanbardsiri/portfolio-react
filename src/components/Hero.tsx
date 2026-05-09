@@ -3,6 +3,7 @@ import Typewriter from "typewriter-effect";
 import { portfolioData as data } from '../data/portfolioData';
 import { motion } from "framer-motion";
 import ParticleImage from "./ParticleImage";
+import MagneticButton from "./MagneticButton";
 
 interface HeroProps {
   onNavigate: (id: string) => void;
@@ -141,7 +142,7 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
             <h2 style={{ fontSize: '1.5rem', color: 'var(--primary)', marginBottom: '1rem', fontWeight: 500 }}>Hello, I'm</h2>
             <h1 className="text-gradient" style={{ fontSize: '4rem', fontWeight: 800, marginBottom: '1rem', lineHeight: 1.1 }}>
@@ -161,28 +162,24 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
               {data.about.bio}
             </p>
             <div className="hero-buttons" style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn btn-primary"
+              <MagneticButton
+                className="btn-primary"
                 onClick={() => onNavigate('projects')}
               >
                 View Projects
-              </motion.button>
-              <motion.a
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn btn-secondary"
+              </MagneticButton>
+              <MagneticButton
+                as="a"
+                className="btn-secondary"
                 href={data.resumeUrl}
                 target="_blank"
                 rel="noreferrer"
               >
                 Download Resume
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn btn-secondary"
+              </MagneticButton>
+              <MagneticButton
+                as="a"
+                className="btn-secondary"
                 href={data.contact.github}
                 target="_blank"
                 rel="noreferrer"
@@ -190,14 +187,14 @@ export const Hero: FC<HeroProps> = ({ onNavigate }) => {
                 aria-label="GitHub Profile"
               >
                 <i className="fab fa-github" style={{ fontSize: '1.5rem' }}></i>
-              </motion.a>
+              </MagneticButton>
             </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
             style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}
           >
             <div className="animate-float" style={{ position: 'relative', zIndex: 2 }}>
