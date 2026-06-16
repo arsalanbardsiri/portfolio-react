@@ -463,3 +463,96 @@ body {
     padding: 12px 16px !important;
   }
 }
+
+/* ========================================================
+   PDF Print & ATS-Friendly Styling
+   ======================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: Arial, sans-serif !important;
+  }
+
+  .webgl-canvas-container,
+  .interaction-bubble,
+  .theme-toggle-btn,
+  .btn-orange-resume,
+  .card-header-bar,
+  .card-dot-marker,
+  svg {
+    display: none !important;
+  }
+
+  .foreground-scroll-container,
+  .portfolio-section,
+  .journey-section {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+    padding: 20px 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
+  }
+
+  .comic-panel-card {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    max-height: none !important;
+    padding: 0 !important;
+    margin-bottom: 30px !important;
+  }
+
+  .card-content-area {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  h1 {
+    font-size: 26pt !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+    margin-bottom: 5px !important;
+    letter-spacing: 0px !important;
+  }
+
+  h2 {
+    font-size: 16pt !important;
+    color: #000000 !important;
+    border-bottom: 1.5pt solid #333333 !important;
+    padding-bottom: 3px !important;
+    margin-top: 25px !important;
+    margin-bottom: 15px !important;
+  }
+
+  h3 {
+    font-size: 13pt !important;
+    color: #333333 !important;
+    margin-top: 15px !important;
+    margin-bottom: 5px !important;
+  }
+
+  p, li, span, div {
+    font-size: 10pt !important;
+    color: #222222 !important;
+    line-height: 1.4 !important;
+  }
+
+  a {
+    color: #0000ee !important;
+    text-decoration: underline !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt !important;
+    color: #555555 !important;
+  }
+}
