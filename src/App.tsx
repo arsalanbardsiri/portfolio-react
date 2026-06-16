@@ -315,7 +315,7 @@ export default function App() {
               </div>
               
               <div className="card-content-area" style={{ padding: '20px 24px 24px', overflowY: 'auto' }}>
-                <h2 id="projects-title" className="melting-header" style={{ fontSize: '1.9rem', color: 'var(--text)', textShadow: '2px 2px 0 var(--color-terracotta)', marginBottom: '4px' }}>
+                <h2 id="projects-title" className="melting-header" style={{ fontSize: 'clamp(1.4rem, 4.5vw, 1.9rem)', color: 'var(--text)', textShadow: '2px 2px 0 var(--color-terracotta)', marginBottom: '4px' }}>
                   PROJECTS & ARCHITECTURES
                 </h2>
                 <p className="jolly-subtitle" style={{ fontSize: '0.75rem', color: 'var(--color-sage)', marginBottom: '20px' }}>
@@ -406,7 +406,7 @@ export default function App() {
             </div>
 
             <div className="card-content-area" style={{ padding: '20px 24px 24px', overflowY: 'auto' }}>
-              <h2 id="skills-title" className="melting-header" style={{ fontSize: '1.9rem', color: 'var(--text)', textShadow: '2px 2px 0 var(--color-navy)', marginBottom: '4px' }}>
+              <h2 id="skills-title" className="melting-header" style={{ fontSize: 'clamp(1.4rem, 4.5vw, 1.9rem)', color: 'var(--text)', textShadow: '2px 2px 0 var(--color-navy)', marginBottom: '4px' }}>
                 TECHNICAL PROFILE &amp; CORE METRICS
               </h2>
               <p className="jolly-subtitle" style={{ fontSize: '0.75rem', color: 'var(--color-navy)', marginBottom: '20px' }}>
@@ -499,7 +499,7 @@ export default function App() {
                 <SurrealEye size={50} irisColor="var(--color-navy)" style={{ border: '1.5px solid var(--border)' }} />
               </div>
 
-              <h2 id="transmission-title" className="jolly-subtitle" style={{ fontSize: '1.5rem', color: 'var(--color-terracotta)', display: 'block', marginBottom: '8px' }}>
+              <h2 id="transmission-title" className="jolly-subtitle" style={{ fontSize: 'clamp(1.2rem, 4vw, 1.5rem)', color: 'var(--color-terracotta)', display: 'block', marginBottom: '8px' }}>
                 CONTACT &amp; NETWORKING
               </h2>
               <p className="legible-fira-text" style={{ marginBottom: '18px', opacity: 0.95, fontSize: '0.78rem' }}>
