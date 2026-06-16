@@ -209,6 +209,661 @@ function createLorenzAttractorGeometry(): THREE.BufferGeometry {
 
 
 
+// Procedural 3D Antler Branch Generator
+function createAntlerBranch(length: number, scaleFactor: number, geometriesToDispose: THREE.BufferGeometry[]): THREE.Group {
+    const group = new THREE.Group();
+    
+    // Base trunk
+    const trunkGeom = new THREE.CylinderGeometry(0.10 * scaleFactor, 0.16 * scaleFactor, length, 5);
+    trunkGeom.translate(0, length / 2, 0);
+    geometriesToDispose.push(trunkGeom);
+    const trunk = new THREE.Mesh(trunkGeom);
+    group.add(trunk);
+    
+    // Branch 1
+    const b1 = new THREE.Group();
+    b1.position.set(0, length * 0.6, 0);
+    b1.rotation.z = 0.5;
+    const b1Geom = new THREE.CylinderGeometry(0.06 * scaleFactor, 0.10 * scaleFactor, length * 0.6, 5);
+    b1Geom.translate(0, length * 0.3, 0);
+    geometriesToDispose.push(b1Geom);
+    const b1Mesh = new THREE.Mesh(b1Geom);
+    b1.add(b1Mesh);
+    group.add(b1);
+    
+    // Branch 2
+    const b2 = new THREE.Group();
+    b2.position.set(0, length * 0.8, 0);
+    b2.rotation.z = -0.4;
+    const b2Geom = new THREE.CylinderGeometry(0.04 * scaleFactor, 0.07 * scaleFactor, length * 0.5, 5);
+    b2Geom.translate(0, length * 0.25, 0);
+    geometriesToDispose.push(b2Geom);
+    const b2Mesh = new THREE.Mesh(b2Geom);
+    b2.add(b2Mesh);
+    group.add(b2);
+    
+    // Little twigs / cherry blossom points
+    const tipGeom = new THREE.SphereGeometry(0.20 * scaleFactor, 4, 4);
+    geometriesToDispose.push(tipGeom);
+    
+    const tip1 = new THREE.Mesh(tipGeom);
+    tip1.position.set(0, length * 0.6, 0);
+    b1.add(tip1);
+    
+    const tip2 = new THREE.Mesh(tipGeom);
+    tip2.position.set(0, length * 0.5, 0);
+    b2.add(tip2);
+
+    const tipBase = new THREE.Mesh(tipGeom);
+    tipBase.position.set(0, length, 0);
+    group.add(tipBase);
+    
+    return group;
+}
+
+// Draw playing card textures dynamically
+function createPlayingCardTexture(suit: 'heart' | 'spade' | 'diamond' | 'club', value: string, isDark: boolean): THREE.CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 192;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+        // Card Background: White/Cream
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 128, 192);
+        
+        // Card Border: Thin dark line
+        ctx.strokeStyle = '#0b0a14';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(2, 2, 124, 188);
+        
+        // Suit Color
+        const color = (suit === 'heart' || suit === 'diamond') ? '#d63c76' : '#207a6e';
+        ctx.fillStyle = color;
+        
+        // Draw Value text in top-left and bottom-right
+        ctx.font = 'bold 24px "Space Grotesk"';
+        ctx.fillText(value, 10, 30);
+        
+        ctx.save();
+        ctx.translate(128, 192);
+        ctx.rotate(Math.PI);
+        ctx.fillText(value, 10, 30);
+        ctx.restore();
+        
+        // Draw center suit symbol
+        ctx.translate(64, 96);
+        ctx.fillStyle = color;
+        if (suit === 'heart') {
+            ctx.beginPath();
+            ctx.moveTo(0, -10);
+            ctx.bezierCurveTo(-15, -25, -25, 0, 0, 20);
+            ctx.bezierCurveTo(25, 0, 15, -25, 0, -10);
+            ctx.fill();
+        } else if (suit === 'spade') {
+            ctx.beginPath();
+            ctx.moveTo(0, -20);
+            ctx.bezierCurveTo(-15, 0, -20, 10, 0, 15);
+            ctx.bezierCurveTo(20, 10, 15, 0, 0, -20);
+            ctx.fill();
+            // stem
+            ctx.beginPath();
+            ctx.moveTo(-4, 10);
+            ctx.lineTo(4, 10);
+            ctx.lineTo(8, 22);
+            ctx.lineTo(-8, 22);
+            ctx.closePath();
+            ctx.fill();
+        } else if (suit === 'diamond') {
+            ctx.beginPath();
+            ctx.moveTo(0, -20);
+            ctx.lineTo(-15, 0);
+            ctx.lineTo(0, 20);
+            ctx.lineTo(15, 0);
+            ctx.closePath();
+            ctx.fill();
+        } else { // club
+            ctx.beginPath();
+            ctx.arc(-8, -2, 9, 0, Math.PI * 2);
+            ctx.arc(8, -2, 9, 0, Math.PI * 2);
+            ctx.arc(0, -12, 9, 0, Math.PI * 2);
+            ctx.fill();
+            // stem
+            ctx.beginPath();
+            ctx.moveTo(-3, 2);
+            ctx.lineTo(3, 2);
+            ctx.lineTo(6, 16);
+            ctx.lineTo(-6, 16);
+            ctx.closePath();
+            ctx.fill();
+        }
+    }
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+}
+
+// Procedural 3D Pocket Watch Mesh
+function createPocketWatchMesh(isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const watchGroup = new THREE.Group();
+    
+    // Gold/Brass Rim material
+    const brassMat = new THREE.MeshPhongMaterial({
+        color: isDark ? 0xffc844 : 0xe3ac34,
+        shininess: 90,
+        specular: 0xffffff
+    });
+    
+    const rimGeom = new THREE.TorusGeometry(0.7, 0.09, 8, 24);
+    geometriesToDispose.push(rimGeom);
+    const rim = new THREE.Mesh(rimGeom, brassMat);
+    watchGroup.add(rim);
+    
+    const loopGeom = new THREE.TorusGeometry(0.18, 0.04, 6, 12);
+    geometriesToDispose.push(loopGeom);
+    const loop = new THREE.Mesh(loopGeom, brassMat);
+    loop.position.y = 0.76;
+    watchGroup.add(loop);
+    
+    // Face
+    const faceGeom = new THREE.CylinderGeometry(0.64, 0.64, 0.06, 24);
+    faceGeom.rotateX(Math.PI / 2);
+    geometriesToDispose.push(faceGeom);
+    
+    // Watch Face Texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+        ctx.fillStyle = '#fefdf9';
+        ctx.fillRect(0, 0, 128, 128);
+        ctx.strokeStyle = '#0b0a14';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(64, 64, 60, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Hour ticks
+        ctx.translate(64, 64);
+        ctx.fillStyle = '#0b0a14';
+        for (let i = 0; i < 12; i++) {
+            ctx.rotate(Math.PI / 6);
+            ctx.fillRect(-1.5, -56, 3, 10);
+        }
+        // Hands
+        ctx.fillStyle = '#0b0a14';
+        ctx.fillRect(-2, -35, 4, 35); // Hour hand
+        ctx.rotate(1.2);
+        ctx.fillRect(-1, -48, 2, 48); // Minute hand
+    }
+    const faceTex = new THREE.CanvasTexture(canvas);
+    faceTex.colorSpace = THREE.SRGBColorSpace;
+    const faceMat = new THREE.MeshBasicMaterial({ map: faceTex });
+    materialsToDispose.push(faceMat);
+    
+    const face = new THREE.Mesh(faceGeom, faceMat);
+    face.position.z = 0.03;
+    watchGroup.add(face);
+    
+    // Backing outline
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    const outline = new THREE.Mesh(rimGeom, outlineMat);
+    outline.scale.setScalar(1.12);
+    outline.position.z = -0.02;
+    rim.add(outline);
+    
+    return watchGroup;
+}
+
+// Procedural 3D Melting Clock Mesh (Dalí style)
+function createMeltingClockMesh(isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const clockGroup = new THREE.Group();
+    
+    // Distorted torus rim
+    const torusGeom = new THREE.TorusGeometry(0.8, 0.10, 8, 32);
+    const pos = torusGeom.attributes.position;
+    const v = new THREE.Vector3();
+    for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos, i);
+        // Distort vertices downward and stretch them along Y
+        if (v.y < 0) {
+            v.y *= 1.8;
+            v.x *= 0.75;
+        } else {
+            v.y *= 1.1;
+        }
+        // Add a melting curve
+        v.z += Math.sin(v.y * 2.0) * 0.15;
+        pos.setXYZ(i, v.x, v.y, v.z);
+    }
+    torusGeom.computeVertexNormals();
+    geometriesToDispose.push(torusGeom);
+    
+    // Gold/Brass material
+    const brassMat = new THREE.MeshPhongMaterial({
+        color: isDark ? 0xffc844 : 0xe3ac34,
+        shininess: 90,
+        specular: 0xffffff,
+        side: THREE.DoubleSide
+    });
+    
+    const rim = new THREE.Mesh(torusGeom, brassMat);
+    clockGroup.add(rim);
+    
+    // Distorted Watch Face Shape
+    const faceShape = new THREE.Shape();
+    const pointsCount = 32;
+    for (let i = 0; i <= pointsCount; i++) {
+        const theta = (i / pointsCount) * Math.PI * 2;
+        let rx = 0.65 * Math.cos(theta);
+        let ry = 0.65 * Math.sin(theta);
+        if (ry < 0) {
+            ry *= 1.8;
+            rx *= 0.75;
+        } else {
+            ry *= 1.1;
+        }
+        if (i === 0) faceShape.moveTo(rx, ry);
+        else faceShape.lineTo(rx, ry);
+    }
+    const faceGeom = new THREE.ShapeGeometry(faceShape);
+    geometriesToDispose.push(faceGeom);
+    
+    // Canvas texture for distorted watch face
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+        ctx.fillStyle = '#fdfbf2';
+        ctx.fillRect(0, 0, 128, 128);
+        ctx.strokeStyle = '#0b0a14';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(64, 64, 58, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Distorted Roman numerals (I, III, VI, IX, XII)
+        ctx.fillStyle = '#0b0a14';
+        ctx.font = 'bold 16px "Space Grotesk"';
+        ctx.fillText('XII', 53, 24);
+        ctx.fillText('III', 98, 68);
+        ctx.fillText('VI', 56, 114);
+        ctx.fillText('IX', 14, 68);
+        
+        // Melting hands
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(64, 64);
+        ctx.bezierCurveTo(60, 80, 50, 90, 48, 100);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(64, 64);
+        ctx.bezierCurveTo(80, 60, 90, 70, 95, 75);
+        ctx.stroke();
+    }
+    const faceTex = new THREE.CanvasTexture(canvas);
+    faceTex.colorSpace = THREE.SRGBColorSpace;
+    const faceMat = new THREE.MeshBasicMaterial({ map: faceTex, side: THREE.DoubleSide });
+    materialsToDispose.push(faceMat);
+    
+    const face = new THREE.Mesh(faceGeom, faceMat);
+    face.position.z = 0.02;
+    clockGroup.add(face);
+    
+    // Outline mesh
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    const outline = new THREE.Mesh(torusGeom, outlineMat);
+    outline.scale.setScalar(1.1);
+    outline.position.z = -0.02;
+    rim.add(outline);
+    
+    return clockGroup;
+}
+
+// Procedural 3D Key (Alice key for Projects gate background)
+function createSurrealKey(brassMat: THREE.Material, isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const keyGroup = new THREE.Group();
+    
+    // Handle loop
+    const loopGeom = new THREE.TorusGeometry(0.8, 0.15, 8, 16);
+    geometriesToDispose.push(loopGeom);
+    const loop = new THREE.Mesh(loopGeom, brassMat);
+    keyGroup.add(loop);
+    
+    // Shaft
+    const shaftGeom = new THREE.CylinderGeometry(0.12, 0.12, 3.2, 8);
+    shaftGeom.rotateZ(Math.PI / 2);
+    shaftGeom.translate(1.6, 0, 0);
+    geometriesToDispose.push(shaftGeom);
+    const shaft = new THREE.Mesh(shaftGeom, brassMat);
+    keyGroup.add(shaft);
+    
+    // Teeth
+    const toothGeom = new THREE.BoxGeometry(0.5, 0.8, 0.3);
+    geometriesToDispose.push(toothGeom);
+    const tooth1 = new THREE.Mesh(toothGeom, brassMat);
+    tooth1.position.set(2.8, -0.4, 0);
+    keyGroup.add(tooth1);
+    
+    const tooth2 = new THREE.Mesh(toothGeom, brassMat);
+    tooth2.position.set(3.2, -0.4, 0);
+    tooth2.scale.set(0.8, 0.7, 1);
+    keyGroup.add(tooth2);
+    
+    // Outline
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    
+    const loopOutline = new THREE.Mesh(loopGeom, outlineMat);
+    loopOutline.scale.setScalar(1.15);
+    loopOutline.position.z = -0.02;
+    loop.add(loopOutline);
+    
+    const shaftOutline = new THREE.Mesh(shaftGeom, outlineMat);
+    shaftOutline.scale.set(1, 1.15, 1.15);
+    shaftOutline.position.z = -0.02;
+    shaft.add(shaftOutline);
+    
+    return keyGroup;
+}
+
+// Procedural 3D Teacup (Alice teacup for Projects gate background)
+function createSurrealTeacup(cupColorMat: THREE.Material, isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const cupGroup = new THREE.Group();
+    
+    // Cup body
+    const bodyGeom = new THREE.CylinderGeometry(1.0, 0.6, 1.4, 16, 1, true); // open ended cylinder
+    geometriesToDispose.push(bodyGeom);
+    const body = new THREE.Mesh(bodyGeom, cupColorMat);
+    cupGroup.add(body);
+    
+    // Cup base
+    const baseGeom = new THREE.CylinderGeometry(0.65, 0.65, 0.15, 16);
+    baseGeom.translate(0, -0.7, 0);
+    geometriesToDispose.push(baseGeom);
+    const base = new THREE.Mesh(baseGeom, cupColorMat);
+    cupGroup.add(base);
+    
+    // Cup handle
+    const handleGeom = new THREE.TorusGeometry(0.5, 0.12, 8, 16, Math.PI);
+    handleGeom.translate(-0.8, 0, 0);
+    geometriesToDispose.push(handleGeom);
+    const handle = new THREE.Mesh(handleGeom, cupColorMat);
+    cupGroup.add(handle);
+    
+    // Outline
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    
+    const bodyOutline = new THREE.Mesh(bodyGeom, outlineMat);
+    bodyOutline.scale.setScalar(1.1);
+    body.add(bodyOutline);
+    
+    const handleOutline = new THREE.Mesh(handleGeom, outlineMat);
+    handleOutline.scale.setScalar(1.15);
+    handle.add(handleOutline);
+    
+    return cupGroup;
+}
+
+// Procedural 3D Dream Mask (Paprika mask for Skills gate background)
+function createSurrealDreamMask(maskMat: THREE.Material, isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const maskGroup = new THREE.Group();
+    // Face mask outline shape
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 1.8);
+    shape.bezierCurveTo(1.2, 1.8, 1.4, 0.8, 1.4, 0);
+    shape.bezierCurveTo(1.4, -0.8, 0.8, -1.8, 0, -1.8);
+    shape.bezierCurveTo(-0.8, -1.8, -1.4, -0.8, -1.4, 0);
+    shape.bezierCurveTo(-1.4, 0.8, -1.2, 1.8, 0, 1.8);
+    
+    // Cutout eyes
+    const eyeL = new THREE.Path();
+    eyeL.absarc(-0.5, 0.3, 0.25, 0, Math.PI * 2, true);
+    shape.holes.push(eyeL);
+    
+    const eyeR = new THREE.Path();
+    eyeR.absarc(0.5, 0.3, 0.25, 0, Math.PI * 2, true);
+    shape.holes.push(eyeR);
+    
+    const maskGeom = new THREE.ExtrudeGeometry(shape, {
+        depth: 0.2,
+        bevelEnabled: true,
+        bevelThickness: 0.1,
+        bevelSize: 0.05,
+        bevelSegments: 2
+    });
+    maskGeom.center();
+    geometriesToDispose.push(maskGeom);
+    
+    const mesh = new THREE.Mesh(maskGeom, maskMat);
+    maskGroup.add(mesh);
+    
+    // Outline
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    const outline = new THREE.Mesh(maskGeom, outlineMat);
+    outline.scale.setScalar(1.08);
+    mesh.add(outline);
+    
+    return maskGroup;
+}
+
+// Procedural 3D Surreal Floating Door (Alice/Wonderland style, swings open on camera approach)
+function createSurrealFloatingDoor(isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const doorGroup = new THREE.Group();
+    
+    const hinge = new THREE.Group();
+    hinge.name = 'hinge';
+    hinge.position.set(-0.8, 0, 0);
+    doorGroup.add(hinge);
+    
+    const panelGeom = new THREE.BoxGeometry(1.6, 3.2, 0.12);
+    geometriesToDispose.push(panelGeom);
+    
+    const doorMat = new THREE.MeshPhongMaterial({
+        color: isDark ? 0x8c6ec9 : 0x207a6e,
+        shininess: 40,
+        flatShading: true
+    });
+    const panel = new THREE.Mesh(panelGeom, doorMat);
+    panel.position.set(0.8, 0, 0);
+    hinge.add(panel);
+    
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    const panelOutline = new THREE.Mesh(panelGeom, outlineMat);
+    panelOutline.scale.setScalar(1.08);
+    panel.add(panelOutline);
+    
+    const insetGeom = new THREE.BoxGeometry(1.2, 1.2, 0.05);
+    geometriesToDispose.push(insetGeom);
+    
+    const insetColorMat = new THREE.MeshPhongMaterial({
+        color: isDark ? 0xffafc0 : 0xd63c76,
+        flatShading: true
+    });
+    
+    const detailTop = new THREE.Mesh(insetGeom, insetColorMat);
+    detailTop.position.set(0, 0.7, 0.08);
+    panel.add(detailTop);
+    
+    const detailBottom = new THREE.Mesh(insetGeom, insetColorMat);
+    detailBottom.position.set(0, -0.7, 0.08);
+    panel.add(detailBottom);
+    
+    const knobGeom = new THREE.SphereGeometry(0.12, 8, 8);
+    geometriesToDispose.push(knobGeom);
+    const brassMat = new THREE.MeshPhongMaterial({ color: 0xe3ac34, shininess: 90 });
+    
+    const knob = new THREE.Mesh(knobGeom, brassMat);
+    knob.position.set(0.6, 0, 0.1);
+    panel.add(knob);
+    
+    return doorGroup;
+}
+
+// Helper to draw Seele Monolith Canvas Texture
+function drawSeeleCanvas(canvas: HTMLCanvasElement, num: number, isDark: boolean) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
+    
+    // Black background
+    ctx.fillStyle = '#05040a';
+    ctx.fillRect(0, 0, w, h);
+    
+    // Glowing red border
+    ctx.strokeStyle = '#ff1a40';
+    ctx.lineWidth = 12;
+    ctx.strokeRect(6, 6, w - 12, h - 12);
+    
+    // Inner thin border
+    ctx.strokeStyle = '#ff1a40';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(18, 18, w - 36, h - 36);
+    
+    // Text setup
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Draw "SOUND ONLY"
+    ctx.fillStyle = '#ff1a40';
+    ctx.font = 'bold 32px "Courier New", Courier, monospace';
+    ctx.shadowColor = '#ff1a40';
+    ctx.shadowBlur = 10;
+    ctx.fillText('SOUND ONLY', w * 0.5, h * 0.28);
+    
+    // Draw a divider line
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(w * 0.2, h * 0.42);
+    ctx.lineTo(w * 0.8, h * 0.42);
+    ctx.stroke();
+    
+    // Draw the number circle/bracket
+    ctx.beginPath();
+    ctx.arc(w * 0.5, h * 0.65, 60, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Draw number (01, 02, etc.)
+    ctx.font = 'bold 50px "Courier New", Courier, monospace';
+    const numStr = num < 10 ? `0${num}` : `${num}`;
+    ctx.fillText(numStr, w * 0.5, h * 0.65);
+    
+    // Reset shadow
+    ctx.shadowBlur = 0;
+}
+
+// Procedural Seele Monolith Door that swings open
+function createSeeleMonolithDoor(index: number, side: number, isDark: boolean, geometriesToDispose: THREE.BufferGeometry[], materialsToDispose: THREE.Material[]): THREE.Group {
+    const doorGroup = new THREE.Group();
+    doorGroup.name = `seeleDoor_${index}`;
+    
+    const hinge = new THREE.Group();
+    hinge.name = 'hinge';
+    hinge.position.set(side * -0.8, 0, 0);
+    doorGroup.add(hinge);
+    
+    const panelGeom = new THREE.BoxGeometry(1.6, 3.6, 0.15);
+    geometriesToDispose.push(panelGeom);
+    
+    const blackMat = new THREE.MeshPhongMaterial({
+        color: 0x05040a,
+        shininess: 30,
+        specular: 0x222222
+    });
+    
+    const faceCanvas = document.createElement('canvas');
+    faceCanvas.width = 256;
+    faceCanvas.height = 512;
+    drawSeeleCanvas(faceCanvas, index, isDark);
+    
+    const seeleTex = new THREE.CanvasTexture(faceCanvas);
+    seeleTex.colorSpace = THREE.SRGBColorSpace;
+    
+    const seeleFaceMat = new THREE.MeshPhongMaterial({
+        map: seeleTex,
+        emissive: new THREE.Color(0xff0000),
+        emissiveIntensity: 0.2,
+        shininess: 50,
+        specular: 0x444444
+    });
+    
+    materialsToDispose.push(blackMat, seeleFaceMat);
+    
+    // Materials: only the front face (+Z) has the canvas texture
+    const materials = [
+        blackMat,      // +X
+        blackMat,      // -X
+        blackMat,      // +Y
+        blackMat,      // -Y
+        seeleFaceMat,  // +Z (Front)
+        blackMat       // -Z
+    ];
+    
+    const panel = new THREE.Mesh(panelGeom, materials);
+    panel.position.set(side * 0.8, 0, 0);
+    hinge.add(panel);
+    
+    // Outline for comic book aesthetic
+    const outlineMat = new THREE.MeshBasicMaterial({ color: isDark ? 0x0b0a14 : 0x121124, side: THREE.BackSide });
+    materialsToDispose.push(outlineMat);
+    const panelOutline = new THREE.Mesh(panelGeom, outlineMat);
+    panelOutline.scale.set(1.08, 1.04, 1.08);
+    panel.add(panelOutline);
+    
+    return doorGroup;
+}
+
+// Giant Face Outline Silhouette
+function drawGiantFaceSilhouette(canvas: HTMLCanvasElement) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
+    
+    ctx.clearRect(0, 0, w, h);
+    
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    
+    // Draw serene face outline
+    ctx.beginPath();
+    ctx.moveTo(w * 0.5, h * 0.15);
+    ctx.bezierCurveTo(w * 0.8, h * 0.2, w * 0.8, h * 0.65, w * 0.5, h * 0.88);
+    ctx.bezierCurveTo(w * 0.2, h * 0.65, w * 0.2, h * 0.2, w * 0.5, h * 0.15);
+    ctx.stroke();
+    
+    // Slit eyes
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.ellipse(w * 0.38, h * 0.45, 20, 8, -0.05, 0, Math.PI * 2);
+    ctx.ellipse(w * 0.62, h * 0.45, 20, 8, 0.05, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Nose
+    ctx.beginPath();
+    ctx.moveTo(w * 0.5, h * 0.4);
+    ctx.lineTo(w * 0.5, h * 0.58);
+    ctx.lineTo(w * 0.46, h * 0.6);
+    ctx.stroke();
+    
+    // Serene mouth
+    ctx.beginPath();
+    ctx.moveTo(w * 0.45, h * 0.72);
+    ctx.quadraticCurveTo(w * 0.5, h * 0.74, w * 0.55, h * 0.72);
+    ctx.stroke();
+}
+
 // Draw Blog Lounge graphic canvas texture
 function drawBlogLoungeCanvas(canvas: HTMLCanvasElement, time: number) {
     const ctx = canvas.getContext('2d');
@@ -216,62 +871,68 @@ function drawBlogLoungeCanvas(canvas: HTMLCanvasElement, time: number) {
     const w = canvas.width;
     const h = canvas.height;
     
-    // Background: Cream
+    // Cream background
     ctx.fillStyle = '#fffdf5';
     ctx.fillRect(0, 0, w, h);
     
-    // Abstract grid blocks (Pop Art styling)
-    ctx.fillStyle = '#d63c76'; // Terracotta
-    ctx.fillRect(20, 20, w - 40, h * 0.45);
+    // Chocolate River / Pipes (Alice/Charlie factory)
+    ctx.fillStyle = '#8c6ec9'; // Purple pipe
+    ctx.fillRect(30, 0, 40, h * 0.35);
+    ctx.fillStyle = '#e3ac34'; // Brass flange
+    ctx.fillRect(20, h * 0.35, 60, 15);
     
-    ctx.fillStyle = '#207a6e'; // Muted Teal
-    ctx.fillRect(20, h * 0.52, w - 40, h * 0.42);
+    // Pouring chocolate liquid stream
+    ctx.fillStyle = '#d63c76'; // Pink chocolate stream
+    ctx.fillRect(35, h * 0.37, 30, h * 0.4);
     
-    // Draw text title in blocks
-    ctx.fillStyle = '#ffffff';
-    ctx.font = "bold 32px 'Space Grotesk'";
-    ctx.fillText("BLOG LOUNGE", 40, h * 0.28);
+    // Splashing bubble details
+    ctx.fillStyle = '#f89fb3';
+    for (let i = 0; i < 5; i++) {
+        const bx = 50 + Math.sin(time * 5 + i) * 15;
+        const by = h * 0.77 + Math.cos(time * 3 + i) * 6;
+        ctx.beginPath();
+        ctx.arc(bx, by, 6, 0, Math.PI * 2);
+        ctx.fill();
+    }
     
-    // Draw stylized paragraph lines in teal section
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-    ctx.fillRect(40, h * 0.60, w * 0.45, 12); // Article heading block
-    
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
-    ctx.fillRect(40, h * 0.68, w - 160, 6);
-    ctx.fillRect(40, h * 0.73, w - 120, 6);
-    ctx.fillRect(40, h * 0.78, w - 140, 6);
-    ctx.fillRect(40, h * 0.83, w - 180, 6);
-    
-    // Elegant Mustard Bookmark silhouette in the bottom teal block
+    // Cartoon Mushrooms (Alice in Wonderland style) on floor
+    const mushX1 = w - 100;
+    const mushY1 = h - 100;
+    // stem
     ctx.fillStyle = '#e3ac34';
+    ctx.fillRect(mushX1 - 10, mushY1, 20, 80);
+    // cap
+    ctx.fillStyle = '#d63c76';
+    ctx.beginPath();
+    ctx.arc(mushX1, mushY1 + 10, 35, Math.PI, 0);
+    ctx.fill();
+    // spots
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(mushX1 - 15, mushY1 - 5, 5, 0, Math.PI * 2);
+    ctx.arc(mushX1 + 15, mushY1 - 10, 6, 0, Math.PI * 2);
+    ctx.arc(mushX1, mushY1 - 20, 5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Draw Blog Lounge title
+    ctx.fillStyle = '#207a6e';
+    ctx.font = "bold 28px 'Space Grotesk'";
+    ctx.fillText("BLOG LOUNGE", w * 0.45, 60);
+    
+    // Article text blocks
+    ctx.fillStyle = 'rgba(32, 122, 110, 0.12)';
+    ctx.fillRect(w * 0.45, 90, w * 0.48, 120);
+    
+    ctx.fillStyle = '#207a6e';
+    ctx.font = "11px 'Fira Code'";
+    ctx.fillText("> SURREALIST TALES", w * 0.48, 120);
+    ctx.fillText("> CHOCOLATE HYDRAULICS", w * 0.48, 140);
+    ctx.fillText("> DOWN THE RABBIT HOLE", w * 0.48, 160);
+    
+    // Outer border
     ctx.strokeStyle = '#0b0a14';
     ctx.lineWidth = 4;
-    ctx.beginPath();
-    const bmX = w - 85;
-    const bmY = h * 0.52;
-    const bmW = 28;
-    const bmH = 50;
-    ctx.moveTo(bmX, bmY);
-    ctx.lineTo(bmX + bmW, bmY);
-    ctx.lineTo(bmX + bmW, bmY + bmH);
-    ctx.lineTo(bmX + bmW / 2, bmY + bmH - 8);
-    ctx.lineTo(bmX, bmY + bmH);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    
-    // Outer black frame lines
-    ctx.strokeStyle = '#0b0a14';
-    ctx.lineWidth = 5;
-    ctx.strokeRect(20, 20, w - 40, h * 0.45);
-    ctx.strokeRect(20, h * 0.52, w - 40, h * 0.42);
-    
-    // Smiling sun detail particle
-    ctx.fillStyle = '#e3ac34';
-    ctx.beginPath();
-    ctx.arc(w - 70, h * 0.22, 14, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
+    ctx.strokeRect(10, 10, w - 20, h - 20);
 }
 
 // Draw Catlender graphic canvas texture
@@ -281,92 +942,105 @@ function drawCatlenderCanvas(canvas: HTMLCanvasElement, time: number) {
     const w = canvas.width;
     const h = canvas.height;
     
-    // Background: Cream
-    ctx.fillStyle = '#fffdf5';
+    // Midnight dark backing
+    ctx.fillStyle = '#100f1e';
     ctx.fillRect(0, 0, w, h);
     
-    // Muted Mustard calendar header block
-    ctx.fillStyle = '#e3ac34';
-    ctx.fillRect(20, 20, w - 40, h * 0.38);
+    // Glowing neon-pink Cheshire Cat eyes
+    const eyeBreathe = Math.sin(time * 3.0) * 2;
+    ctx.fillStyle = '#ffafc0'; // Neon pink
+    ctx.shadowColor = '#f82a72';
+    ctx.shadowBlur = 15;
     
-    // Draw cubist cat ears in top-right of calendar header block
-    ctx.fillStyle = '#d63c76'; // Terracotta ear inner
-    ctx.strokeStyle = '#0b0a14';
-    ctx.lineWidth = 4;
-    // Left Ear
     ctx.beginPath();
-    ctx.moveTo(w - 140, 80);
-    ctx.lineTo(w - 105, 80);
-    ctx.lineTo(w - 122, 35);
-    ctx.closePath();
+    ctx.ellipse(w * 0.32, h * 0.35, 20 + eyeBreathe, 8, -0.1, 0, Math.PI * 2);
     ctx.fill();
-    ctx.stroke();
-    // Right Ear
     ctx.beginPath();
-    ctx.moveTo(w - 85, 80);
-    ctx.lineTo(w - 50, 80);
-    ctx.lineTo(w - 68, 35);
-    ctx.closePath();
+    ctx.ellipse(w * 0.68, h * 0.35, 20 + eyeBreathe, 8, 0.1, 0, Math.PI * 2);
     ctx.fill();
-    ctx.stroke();
     
-    // Draw cubist cat nose & whiskers
-    ctx.fillStyle = '#d63c76';
+    ctx.shadowBlur = 0;
+    
+    // Cheshire Grin - giant glowing pink smile with teeth!
+    ctx.strokeStyle = '#ffafc0';
+    ctx.lineWidth = 6;
+    ctx.shadowColor = '#f82a72';
+    ctx.shadowBlur = 20;
+    
     ctx.beginPath();
-    ctx.moveTo(w - 100, 105);
-    ctx.lineTo(w - 90, 105);
-    ctx.lineTo(w - 95, 113);
+    ctx.moveTo(w * 0.2, h * 0.55);
+    ctx.quadraticCurveTo(w * 0.5, h * 0.85, w * 0.8, h * 0.55);
+    ctx.quadraticCurveTo(w * 0.5, h * 0.65, w * 0.2, h * 0.55);
     ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    
-    ctx.strokeStyle = '#0b0a14';
-    ctx.lineWidth = 3;
-    // Left whiskers
-    ctx.beginPath();
-    ctx.moveTo(w - 110, 108);
-    ctx.lineTo(w - 130, 103);
-    ctx.moveTo(w - 110, 113);
-    ctx.lineTo(w - 132, 116);
-    // Right whiskers
-    ctx.moveTo(w - 80, 108);
-    ctx.lineTo(w - 60, 103);
-    ctx.moveTo(w - 80, 113);
-    ctx.lineTo(w - 58, 116);
-    ctx.stroke();
-    
-    // Sage green grid body block
-    ctx.fillStyle = '#207a6e';
-    ctx.fillRect(20, h * 0.45, w - 40, h * 0.5);
-    
     ctx.fillStyle = '#ffffff';
-    ctx.font = "bold 32px 'Space Grotesk'";
-    ctx.fillText("CATLENDER", 40, h * 0.24);
+    ctx.fill();
+    ctx.stroke();
     
-    // Draw cells outline representing scheduling slots
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
-    ctx.strokeStyle = '#0b0a14';
+    // Draw teeth vertical lines
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = '#100f1e';
     ctx.lineWidth = 3;
-    for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 4; c++) {
-            const x = 50 + c * 38;
-            const y = h * 0.53 + r * 32;
-            ctx.fillRect(x, y, 28, 22);
-            ctx.strokeRect(x, y, 28, 22);
-        }
+    for (let i = 1; i < 8; i++) {
+        const t = i / 8;
+        const x = w * 0.2 + (w * 0.6) * t;
+        const topY = h * 0.55 + (h * 0.1) * (0.25 - Math.pow(t - 0.5, 2));
+        const botY = h * 0.55 + (h * 0.3) * (0.25 - Math.pow(t - 0.5, 2));
+        ctx.beginPath();
+        ctx.moveTo(x, topY);
+        ctx.lineTo(x, botY);
+        ctx.stroke();
     }
     
-    // Terracotta scheduling dot
-    ctx.fillStyle = '#d63c76';
+    // Sage green calendar block
+    ctx.fillStyle = '#207a6e';
+    ctx.fillRect(20, h * 0.68, w - 40, h * 0.28);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = "bold 20px 'Space Grotesk'";
+    ctx.fillText("SCHEDULE / CATLENDER", 40, h * 0.76);
+    
+    // Draw pocket watch dial on right side of green block
+    const dialX = w - 80;
+    const dialY = h * 0.82;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.arc(120, h * 0.68 + Math.sin(time * 3.0) * 4.0, 10, 0, Math.PI * 2);
+    ctx.arc(dialX, dialY, 20, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Watch hands
+    const hrHand = time * 0.5;
+    const minHand = time * 3.0;
+    ctx.beginPath();
+    ctx.moveTo(dialX, dialY);
+    ctx.lineTo(dialX + Math.cos(hrHand) * 12, dialY + Math.sin(hrHand) * 12);
+    ctx.moveTo(dialX, dialY);
+    ctx.lineTo(dialX + Math.cos(minHand) * 16, dialY + Math.sin(minHand) * 16);
+    ctx.stroke();
+    
+    // Rabbit Ears peeking at top
+    ctx.fillStyle = '#e3ac34'; // Mustard gold
+    ctx.strokeStyle = '#ffafc0';
+    ctx.lineWidth = 3;
+    
+    ctx.beginPath();
+    ctx.moveTo(w * 0.35, 100);
+    ctx.quadraticCurveTo(w * 0.30, 20, w * 0.40, 30);
+    ctx.quadraticCurveTo(w * 0.45, 60, w * 0.45, 100);
     ctx.fill();
     ctx.stroke();
     
-    ctx.strokeStyle = '#0b0a14';
-    ctx.lineWidth = 5;
-    ctx.strokeRect(20, 20, w - 40, h * 0.38);
-    ctx.strokeRect(20, h * 0.45, w - 40, h * 0.5);
+    ctx.beginPath();
+    ctx.moveTo(w * 0.65, 100);
+    ctx.quadraticCurveTo(w * 0.70, 20, w * 0.60, 30);
+    ctx.quadraticCurveTo(w * 0.55, 60, w * 0.55, 100);
+    ctx.fill();
+    ctx.stroke();
+    
+    // Card border lines
+    ctx.strokeStyle = '#ffafc0';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(10, 10, w - 20, h - 20);
 }
 
 // Draw a Picasso-style pop art painting canvas dynamically (blinking & breathing eyes)
@@ -498,12 +1172,12 @@ function drawNewspaperCanvas(canvas: HTMLCanvasElement, time: number) {
     ctx.lineTo(w * 0.5, h);
     ctx.stroke();
 
-    // Newspaper title
+    // Newspaper title - Hesse Magic Theater theme
     ctx.fillStyle = '#0b0a14';
-    ctx.font = "bold 28px 'Space Grotesk'";
-    ctx.fillText("TECHNICAL SPECS", 25, 45);
+    ctx.font = "bold 32px 'Space Grotesk'";
+    ctx.fillText("MAGIC THEATER", 25, 45);
     ctx.font = "bold 13px 'Fira Code'";
-    ctx.fillText("SUMMARY & CORE METRICS", 25, 66);
+    ctx.fillText("FOR MADMEN ONLY", 25, 66);
 
     ctx.strokeStyle = '#0b0a14';
     ctx.lineWidth = 3;
@@ -731,6 +1405,19 @@ export interface ScrollState {
     activeSection: 'hero' | 'projects' | 'skills' | 'transmission' | 'knot';
     activeProjectIndex: number;
     lerpedPercent: number;
+}
+
+// Helper to recursively update opacity on all materials in a Group
+function updateGroupOpacity(obj: THREE.Object3D, opacity: number) {
+    obj.traverse(child => {
+        if (child instanceof THREE.Mesh && child.material) {
+            const mats = Array.isArray(child.material) ? child.material : [child.material];
+            mats.forEach(m => {
+                m.transparent = true;
+                m.opacity = opacity;
+            });
+        }
+    });
 }
 
 interface RecursiveBloomCanvasProps {
@@ -980,12 +1667,11 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
             mesh.add(outline);
         });
 
-        // 7. FLOATING SURREAL ROCK PLATFORMS (Phong solid materials)
+        // 7. FLOATING SURREAL ROCK PLATFORMS (Phong solid materials - modified theme)
         const rockGroup = new THREE.Group();
         scene.add(rockGroup);
 
         const rockPositions = [
-            { x: -18, y: 12, z: 80, r: 4.5, mat: sageRockMat },
             { x: 19, y: -10, z: 50, r: 5.0, mat: terracottaRockMat },
             { x: -22, y: -14, z: 20, r: 6.0, mat: mustardRockMat },
             { x: 20, y: 14, z: -20, r: 5.5, mat: roseRockMat },
@@ -1014,6 +1700,97 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
             outline.scale.setScalar(1.08);
             rock.add(outline);
         });
+
+        // Antlers on left and right walls of Gate 1 (Hero / Fulton St theme)
+        const antlerGroup = new THREE.Group();
+        scene.add(antlerGroup);
+
+        const antlerColorMat = new THREE.MeshPhongMaterial({
+            color: isDark ? 0x8c6ec9 : 0x207a6e,
+            flatShading: true
+        });
+        materialsToDispose.push(antlerColorMat);
+
+        const pinkBlossomMat = new THREE.MeshPhongMaterial({
+            color: 0xf89fb3, // pastel pink
+            emissive: 0xf82a72, // glowing neon pink
+            emissiveIntensity: 0.5
+        });
+        materialsToDispose.push(pinkBlossomMat);
+
+        const addAntlerToGroup = (x: number, y: number, z: number, scaleVal: number, rotZ: number) => {
+            const antler = createAntlerBranch(4.5, scaleVal, geometriesToDispose);
+            antler.position.set(x, y, z);
+            antler.rotation.z = rotZ;
+            antler.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
+                    if (child.geometry.type === 'SphereGeometry') {
+                        child.material = pinkBlossomMat;
+                    } else {
+                        child.material = antlerColorMat;
+                    }
+                }
+            });
+            antlerGroup.add(antler);
+        };
+
+        // Left Antler
+        addAntlerToGroup(-13, 3, 80, 1.2, 0.45);
+        // Right Antler
+        addAntlerToGroup(13, 3, 80, 1.2, -0.45);
+
+        // Giant Red Sun (representing Fulton Street red sun in the background)
+        const sunGeom = new THREE.SphereGeometry(22, 32, 32);
+        geometriesToDispose.push(sunGeom);
+        const sunMat = new THREE.MeshBasicMaterial({
+            color: 0xd63c76,
+            transparent: true,
+            opacity: 0.95
+        });
+        materialsToDispose.push(sunMat);
+        const sunMesh = new THREE.Mesh(sunGeom, sunMat);
+        sunMesh.name = 'giantRedSun';
+        sunMesh.position.set(0, 4, -180);
+        scene.add(sunMesh);
+
+        // Skills Gate Chessboard Floor (Chess king / Steppenwolf Chessboard pattern)
+        const chessCanvas = document.createElement('canvas');
+        chessCanvas.width = 256;
+        chessCanvas.height = 1024;
+        const chessCtx = chessCanvas.getContext('2d');
+        if (chessCtx) {
+            const cols = 8;
+            const rows = 32;
+            const wCell = 256 / cols;
+            const hCell = 1024 / rows;
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    chessCtx.fillStyle = (r + c) % 2 === 0 ? '#100f1e' : '#e3ac34'; // Black/Gold
+                    chessCtx.fillRect(c * wCell, r * hCell, wCell, hCell);
+                }
+            }
+        }
+        const chessTex = new THREE.CanvasTexture(chessCanvas);
+        chessTex.wrapS = THREE.RepeatWrapping;
+        chessTex.wrapT = THREE.RepeatWrapping;
+        chessTex.repeat.set(1, 1);
+        chessTex.colorSpace = THREE.SRGBColorSpace;
+        
+        const chessFloorGeom = new THREE.PlaneGeometry(24, 100);
+        geometriesToDispose.push(chessFloorGeom);
+        const chessFloorMat = new THREE.MeshPhongMaterial({
+            map: chessTex,
+            transparent: true,
+            opacity: 0.0,
+            side: THREE.DoubleSide
+        });
+        materialsToDispose.push(chessFloorMat);
+        
+        const chessFloor = new THREE.Mesh(chessFloorGeom, chessFloorMat);
+        chessFloor.name = 'chessFloor';
+        chessFloor.position.set(0, -8.5, -35); // Z center of skills section (15 to -85)
+        chessFloor.rotation.x = -Math.PI / 2;
+        scene.add(chessFloor);
 
         // 8. IRIDESCENT SPLINE TENDRIL (Winding spline vein down center void + deep spiral vortex)
         const basePoints = [
@@ -1125,28 +1902,37 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
         scene.add(tubeOutline);
 
         // ------------------------------------------------------------------
-        // PROCEDURAL COGS
+        // PROCEDURAL COGS - Recolored to polished brass
         // ------------------------------------------------------------------
         const cogsGroup = new THREE.Group();
         cogsGroup.name = 'cogsGroup';
         scene.add(cogsGroup);
+
+        const brassCogMat = new THREE.MeshPhongMaterial({
+            color: 0xe3ac34, // brass gold
+            shininess: 95,
+            specular: 0xffffff,
+            flatShading: true,
+            transparent: true
+        });
+        materialsToDispose.push(brassCogMat);
 
         const cogGeom1 = createCogGeometry(3.5, 4.5, 12, 1.2);
         const cogGeom2 = createCogGeometry(2.5, 3.2, 10, 0.9);
         const cogGeom3 = createCogGeometry(3.0, 3.8, 8, 1.0);
         geometriesToDispose.push(cogGeom1, cogGeom2, cogGeom3);
 
-        const cog1 = new THREE.Mesh(cogGeom1, terracottaRockMat);
+        const cog1 = new THREE.Mesh(cogGeom1, brassCogMat);
         cog1.position.set(16, 6, 25);
         cogsGroup.add(cog1);
         simulation.addParticle(cog1, 14);
 
-        const cog2 = new THREE.Mesh(cogGeom2, mustardRockMat);
+        const cog2 = new THREE.Mesh(cogGeom2, brassCogMat);
         cog2.position.set(-16, -4, -5);
         cogsGroup.add(cog2);
         simulation.addParticle(cog2, 14);
 
-        const cog3 = new THREE.Mesh(cogGeom3, sageRockMat);
+        const cog3 = new THREE.Mesh(cogGeom3, brassCogMat);
         cog3.position.set(14, -8, -35);
         cogsGroup.add(cog3);
         simulation.addParticle(cog3, 14);
@@ -1299,16 +2085,43 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
         readerGroup.rotation.y = Math.PI * 0.5; // Flush facing right wall
         scene.add(readerGroup);
 
-        // Seated Torso
-        const readerTorsoGeom = new THREE.BoxGeometry(2.4, 3.2, 1.4);
-        geometriesToDispose.push(readerTorsoGeom);
-        const readerTorso = new THREE.Mesh(readerTorsoGeom, readerTorsoMat);
-        readerTorso.position.set(0, 0, 0);
-        readerGroup.add(readerTorso);
+        // Torso - Chess King shape
+        const baseGeom = new THREE.CylinderGeometry(1.2, 1.2, 0.4, 16);
+        const bodyGeom = new THREE.CylinderGeometry(0.5, 1.0, 2.2, 16);
+        const crownGeom = new THREE.CylinderGeometry(0.8, 0.4, 0.6, 16);
+        geometriesToDispose.push(baseGeom, bodyGeom, crownGeom);
 
-        const readerTorsoOutline = new THREE.Mesh(readerTorsoGeom, readerOutlineMat);
-        readerTorsoOutline.scale.setScalar(1.08);
-        readerTorso.add(readerTorsoOutline);
+        const chessKingMat = new THREE.MeshPhongMaterial({
+            color: isDark ? 0xcc9966 : 0x8a5a36, // Wooden chess piece style
+            flatShading: true,
+            side: THREE.DoubleSide
+        });
+        materialsToDispose.push(chessKingMat);
+
+        const readerTorso = new THREE.Group();
+        
+        const baseMesh = new THREE.Mesh(baseGeom, chessKingMat);
+        baseMesh.position.y = -1.3;
+        readerTorso.add(baseMesh);
+        const baseOutline = new THREE.Mesh(baseGeom, readerOutlineMat);
+        baseOutline.scale.setScalar(1.1);
+        baseMesh.add(baseOutline);
+
+        const bodyMesh = new THREE.Mesh(bodyGeom, chessKingMat);
+        bodyMesh.position.y = 0.0;
+        readerTorso.add(bodyMesh);
+        const bodyOutline = new THREE.Mesh(bodyGeom, readerOutlineMat);
+        bodyOutline.scale.set(1.1, 1.05, 1.1);
+        bodyMesh.add(bodyOutline);
+
+        const crownMesh = new THREE.Mesh(crownGeom, chessKingMat);
+        crownMesh.position.y = 1.3;
+        readerTorso.add(crownMesh);
+        const crownOutline = new THREE.Mesh(crownGeom, readerOutlineMat);
+        crownOutline.scale.setScalar(1.1);
+        crownMesh.add(crownOutline);
+
+        readerGroup.add(readerTorso);
 
         // Face - Cubist structured Turn 26 Dodecahedron
         const readerFaceGeom = new THREE.DodecahedronGeometry(0.9, 0);
@@ -1370,38 +2183,150 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
         drawNewspaperCanvas(newspaperCanvas, 0);
         newspaperTexture.needsUpdate = true;
 
-        // 9. DRIFTING PHYSICS PARTICLES (Anti-gravity solids, reduced count for de-cluttering)
-        for (let i = 0; i < 20; i++) {
-            const pGeom = new THREE.OctahedronGeometry(0.3 + Math.random() * 0.4);
-            geometriesToDispose.push(pGeom);
+        // 9. DRIFTING PHYSICS PARTICLES (Anti-gravity themed objects per section)
+        
+        // Gate 1: Forest Spirits (Z = 70 to 95)
+        const forestSpiritMat = new THREE.MeshPhongMaterial({
+            color: 0x207a6e,
+            emissive: isDark ? 0x1ee3bd : 0x207a6e,
+            emissiveIntensity: 1.4,
+            flatShading: true,
+            transparent: true
+        });
+        materialsToDispose.push(forestSpiritMat);
 
-            const pMat = (index: number) => index % 2 === 0 ? terracottaRockMat : mustardRockMat;
-            const pMesh = new THREE.Mesh(pGeom, pMat(i));
+        for (let i = 0; i < 8; i++) {
+            const pGeom = new THREE.DodecahedronGeometry(0.35 + Math.random() * 0.25, 0);
+            geometriesToDispose.push(pGeom);
+            const pMesh = new THREE.Mesh(pGeom, forestSpiritMat);
             
             pMesh.position.set(
-                (Math.random() - 0.5) * 18,
-                (Math.random() - 0.5) * 18,
-                (Math.random() - 0.5) * 160 + 20
+                (Math.random() - 0.5) * 14,
+                (Math.random() - 0.5) * 12 + 1,
+                70 + Math.random() * 25
             );
-
-            // Outline
+            
             const pOutline = new THREE.Mesh(pGeom, blackOutlineSideMat);
-            pOutline.scale.setScalar(1.25);
+            pOutline.scale.setScalar(1.22);
             pMesh.add(pOutline);
-
+            
             scene.add(pMesh);
             simulation.addParticle(pMesh);
         }
 
-        // 9.5 BACKGROUND MATHEMATICAL SHAPES (Bifurcation / Butterfly / Trefoil Knot)
+        // Gate 2: Tumbling Playing Cards & Pocket Watches (Z = 15 to 70)
+        const cardSuits: Array<'heart' | 'spade' | 'diamond' | 'club'> = ['heart', 'spade', 'diamond', 'club'];
+        const cardValues = ['A', 'K', 'Q', 'J'];
+        
+        for (let i = 0; i < 5; i++) {
+            const cardTex = createPlayingCardTexture(cardSuits[i % 4], cardValues[i % 4], isDark);
+            const cardMat = new THREE.MeshBasicMaterial({ map: cardTex, side: THREE.DoubleSide, transparent: true });
+            materialsToDispose.push(cardMat);
+            
+            const cardGeom = new THREE.PlaneGeometry(0.8, 1.2);
+            geometriesToDispose.push(cardGeom);
+            const cardMesh = new THREE.Mesh(cardGeom, cardMat);
+            
+            cardMesh.position.set(
+                (Math.random() - 0.5) * 16,
+                (Math.random() - 0.5) * 12,
+                15 + Math.random() * 50
+            );
+            cardMesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+            
+            const pOutline = new THREE.Mesh(cardGeom, blackOutlineSideMat);
+            pOutline.scale.set(1.1, 1.08, 1);
+            pOutline.position.z = -0.01;
+            cardMesh.add(pOutline);
+            
+            scene.add(cardMesh);
+            simulation.addParticle(cardMesh);
+        }
+        
+        for (let i = 0; i < 4; i++) {
+            const watchMesh = createPocketWatchMesh(isDark, geometriesToDispose, materialsToDispose);
+            watchMesh.position.set(
+                (Math.random() - 0.5) * 16,
+                (Math.random() - 0.5) * 12,
+                15 + Math.random() * 50
+            );
+            watchMesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+            
+            scene.add(watchMesh);
+            simulation.addParticle(watchMesh as any);
+        }
+
+        // Gate 3: Melting Clocks (Z = -85 to 15)
+        for (let i = 0; i < 4; i++) {
+            const clockMesh = createMeltingClockMesh(isDark, geometriesToDispose, materialsToDispose);
+            clockMesh.position.set(
+                (Math.random() - 0.5) * 15,
+                (Math.random() - 0.5) * 12 + 1,
+                -80 + Math.random() * 95
+            );
+            clockMesh.rotation.set(Math.random() * 0.4 - 0.2, Math.random() * Math.PI, Math.random() * 0.3 - 0.15);
+            
+            scene.add(clockMesh);
+            simulation.addParticle(clockMesh as any);
+        }
+
+        // Gate 4: Seele Monolith Doors (Z = -155 to -85) that swing open
+        const seeleDoors: THREE.Group[] = [];
+        const seeleFaceMaterials: THREE.MeshPhongMaterial[] = [];
+        for (let i = 0; i < 4; i++) {
+            const side = i % 2 === 0 ? 1 : -1;
+            const monolithDoor = createSeeleMonolithDoor(i + 1, side, isDark, geometriesToDispose, materialsToDispose);
+            
+            // Extract the seele face material for dynamic pulsing glow
+            monolithDoor.traverse(child => {
+                if (child instanceof THREE.Mesh && Array.isArray(child.material)) {
+                    child.material.forEach(m => {
+                        if (m instanceof THREE.MeshPhongMaterial && m.map) {
+                            seeleFaceMaterials.push(m);
+                        }
+                    });
+                }
+            });
+            
+            monolithDoor.position.set(
+                side * 6.5,
+                -1.5,
+                -142 + i * 18
+            );
+            monolithDoor.rotation.set(0, side * 0.1, 0);
+            
+            scene.add(monolithDoor);
+            seeleDoors.push(monolithDoor);
+        }
+
+        // Giant Face Silhouette at Z = -210
+        const faceCanvas = document.createElement('canvas');
+        faceCanvas.width = 512;
+        faceCanvas.height = 512;
+        drawGiantFaceSilhouette(faceCanvas);
+        
+        const faceTex = new THREE.CanvasTexture(faceCanvas);
+        faceTex.colorSpace = THREE.SRGBColorSpace;
+        
+        const faceGeom = new THREE.PlaneGeometry(32, 32);
+        geometriesToDispose.push(faceGeom);
+        const faceMat = new THREE.MeshBasicMaterial({
+            map: faceTex,
+            transparent: true,
+            opacity: 0.9,
+            side: THREE.DoubleSide
+        });
+        materialsToDispose.push(faceMat);
+        
+        const giantFaceMesh = new THREE.Mesh(faceGeom, faceMat);
+        giantFaceMesh.name = 'giantFaceMesh';
+        giantFaceMesh.position.set(0, 0, -210);
+        scene.add(giantFaceMesh);
+
+        // 9.5 BACKGROUND SURREAL THEMED SHAPES (Key, Teacup, Paprika Mask)
         const bgObjectsGroup = new THREE.Group();
         bgObjectsGroup.name = 'bgObjectsGroup';
         scene.add(bgObjectsGroup);
-
-        const knotGeom1 = new THREE.TorusKnotGeometry(1.8, 0.4, 80, 12, 2, 3); // Trefoil Knot
-        const knotGeom2 = new THREE.TorusKnotGeometry(1.8, 0.35, 100, 12, 3, 5); // Cinquefoil Star Knot
-        const lorenzGeom = createLorenzAttractorGeometry(); // Lorenz Attractor (Butterfly Effect)
-        geometriesToDispose.push(knotGeom1, knotGeom2, lorenzGeom);
 
         // Materials: solid glossy configurations mapping to Sage, Mustard, and Terracotta colors
         const knotMat1 = new THREE.MeshPhongMaterial({
@@ -1441,16 +2366,22 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
             lorenz: lorenzMat
         };
 
-        const knotMesh1 = new THREE.Mesh(knotGeom1, knotMat1);
-        knotMesh1.position.set(19.0, 1.0, 32.0); // Behind Frame 1/2 on Projects wall
+        // Key uses knotMat2 (mustard/brass)
+        const knotMesh1 = createSurrealKey(knotMat2, isDark, geometriesToDispose, materialsToDispose);
+        knotMesh1.position.set(15.0, 1.0, 32.0); // Behind Frame 1/2 on Projects wall
+        knotMesh1.scale.setScalar(2.0);
         bgObjectsGroup.add(knotMesh1);
 
-        const knotMesh2 = new THREE.Mesh(knotGeom2, knotMat2);
-        knotMesh2.position.set(19.0, 4.0, 8.0); // Behind Frame 2/3 on Projects wall
+        // Teacup uses knotMat1 (sage/pink hybrid)
+        const knotMesh2 = createSurrealTeacup(knotMat1, isDark, geometriesToDispose, materialsToDispose);
+        knotMesh2.position.set(15.0, 3.0, 8.0); // Behind Frame 2/3 on Projects wall
+        knotMesh2.scale.setScalar(2.2);
         bgObjectsGroup.add(knotMesh2);
 
-        const lorenzMesh = new THREE.Mesh(lorenzGeom, lorenzMat);
-        lorenzMesh.position.set(-19.0, 1.0, -60.0); // Behind Newspaper Reader on Skills wall
+        // Mask uses lorenzMat (terracotta)
+        const lorenzMesh = createSurrealDreamMask(lorenzMat, isDark, geometriesToDispose, materialsToDispose);
+        lorenzMesh.position.set(-15.0, 2.0, -60.0); // Behind Newspaper Reader on Skills wall
+        lorenzMesh.scale.setScalar(2.5);
         bgObjectsGroup.add(lorenzMesh);
 
         // 10. RECURSIVE FEEDBACK PLANE REMOVED
@@ -1581,6 +2512,63 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
                 cog1.rotation.z += 0.012;
                 cog2.rotation.z -= 0.008;
                 cog3.rotation.z += 0.010;
+            }
+
+            // Chessboard floor update
+            const chessFloor = scene.getObjectByName('chessFloor');
+            if (chessFloor && chessFloor instanceof THREE.Mesh && chessFloor.material instanceof THREE.MeshPhongMaterial) {
+                let skillsTurn = 0.0;
+                if (phase === 'idle' && ls >= 0.58 && ls < 0.80) {
+                    skillsTurn = turnAmount;
+                }
+                chessFloor.material.opacity = skillsTurn * 0.85;
+                chessFloor.visible = (skillsTurn > 0.0);
+            }
+
+            // Giant Red Sun pulse update
+            const sunMesh = scene.getObjectByName('giantRedSun');
+            if (sunMesh) {
+                const sunPulse = 1.0 + Math.sin(time * 0.8) * 0.03;
+                sunMesh.scale.setScalar(sunPulse);
+            }
+
+            // Seele monolith doors swing & emissive pulse
+            const seelePulse = 0.25 + Math.sin(shaderTimeRef.current * 5.0) * 0.18;
+            seeleFaceMaterials.forEach(mat => {
+                mat.emissiveIntensity = seelePulse;
+            });
+
+            seeleDoors.forEach((door, idx) => {
+                const side = idx % 2 === 0 ? 1 : -1;
+                const distZ = actualCameraZ - door.position.z;
+                
+                let targetAngle = 0;
+                // Swing open as camera approaches from positive Z to negative Z
+                if (distZ > -5 && distZ < 28) {
+                    const t = 1.0 - Math.max(0, Math.min(1, distZ / 28));
+                    targetAngle = t * Math.PI * 0.55; // Swing up to 100 degrees
+                } else if (distZ <= -5 && distZ > -15) {
+                    // Keep fully open for 10 units after passing, then close
+                    const t = Math.max(0, Math.min(1, (distZ + 15) / 10));
+                    targetAngle = t * Math.PI * 0.55;
+                }
+                
+                const hinge = door.getObjectByName('hinge');
+                if (hinge) {
+                    hinge.rotation.y = THREE.MathUtils.lerp(hinge.rotation.y, side * targetAngle, 0.12);
+                }
+            });
+
+            // Blend background color into blood red in deep Z (Contact section)
+            let currentBgColor = isDark ? 0x0b0a14 : 0x121124;
+            if (actualCameraZ < -50) {
+                const factor = Math.min(1.0, (Math.abs(actualCameraZ) - 50) / 100);
+                const baseColorObj = new THREE.Color(currentBgColor);
+                const redColorObj = new THREE.Color(0x660000);
+                baseColorObj.lerp(redColorObj, factor);
+                scene.background = baseColorObj;
+            } else {
+                scene.background = new THREE.Color(currentBgColor);
             }
 
             // Redraw dynamic canvases at ~15 FPS to dramatically reduce GPU upload bandwidth
@@ -1985,10 +2973,14 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
                     skillsTurn = turnAmount;
                 }
 
-                // Apply opacity & visibility updates to prevent GPU blend overhead
-                knotMat1.opacity = projectsTurn * 0.72;
-                knotMat2.opacity = projectsTurn * 0.72;
-                lorenzMat.opacity = skillsTurn * 0.75;
+                // Apply opacity & visibility updates recursively to entire groups
+                const keyOpacity = projectsTurn * 0.72;
+                const cupOpacity = projectsTurn * 0.72;
+                const maskOpacity = skillsTurn * 0.75;
+
+                updateGroupOpacity(knotMesh1, keyOpacity);
+                updateGroupOpacity(knotMesh2, cupOpacity);
+                updateGroupOpacity(lorenzMesh, maskOpacity);
 
                 knotMesh1.visible = (projectsTurn > 0.0);
                 knotMesh2.visible = (projectsTurn > 0.0);
@@ -2074,6 +3066,8 @@ export const RecursiveBloomCanvas: React.FC<RecursiveBloomCanvasProps> = ({ scro
             if (picassoTexture) picassoTexture.dispose();
             if (catTexture) catTexture.dispose();
             if (newspaperTexture) newspaperTexture.dispose();
+            if (chessTex) chessTex.dispose();
+            if (faceTex) faceTex.dispose();
 
             // FBOs removed
             renderer.dispose();
