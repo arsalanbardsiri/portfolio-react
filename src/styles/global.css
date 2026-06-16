@@ -385,17 +385,23 @@ body {
   align-items: center;
   padding: 60px;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(20px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              visibility 0.8s step-end,
               transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 20;
 }
 
 .journey-section.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              visibility 0.8s step-start,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .left-aligned-panel {

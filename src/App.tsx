@@ -518,7 +518,7 @@ export default function App() {
                   href={portfolioData.resumeUrl}
                   target="_blank"
                   rel="noreferrer"
-                  style={{ textDecoration: 'none', pointerEvents: 'auto', width: '100%' }}
+                  style={{ textDecoration: 'none', pointerEvents: scrollState.activeSection === 'transmission' ? 'auto' : 'none', width: '100%' }}
                   aria-label="Download Arsalan Bardsiri's Resume in PDF format"
                 >
                   <button className="btn-orange-resume" style={{ fontSize: '0.84rem', width: '100%' }}>
@@ -541,7 +541,7 @@ export default function App() {
                     color: '#ffffff', 
                     border: '1.5px solid var(--border)',
                     boxShadow: '0 4px 12px rgba(140, 110, 201, 0.25)',
-                    pointerEvents: 'auto'
+                    pointerEvents: scrollState.activeSection === 'transmission' ? 'auto' : 'none'
                   }}
                   aria-label="Re-enter reality and return to initial starting screen"
                 >
